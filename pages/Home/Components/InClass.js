@@ -1,5 +1,11 @@
 import React from "react";
-import { View, TouchableHighlight, Text, Image } from "react-native";
+import {
+  View,
+  TouchableHighlight,
+  Text,
+  Image,
+  ImageBackground,
+} from "react-native";
 import styled from "styled-components/native";
 
 const InClass = ({ title, color, name, picture }) => {
