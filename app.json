@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ruangmu-mobile",
-    "slug": "ruangmu-mobile",
-    "version": "1.0.0",
+    "name": "ruangmu",
+    "slug": "ruangmu",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.stkip.ruangmu"
     },
     "web": {
       "favicon": "./assets/favicon.png"
