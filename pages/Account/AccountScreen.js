@@ -89,7 +89,6 @@ const VerifiedEmail = styled.Text`
   font-weight: normal;
   font-size: 12px;
   line-height: 15px;
-
   color: #333333;
 `;
 

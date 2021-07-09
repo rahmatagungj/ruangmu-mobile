@@ -33,14 +33,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 8,
   },
-  imageStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode: "stretch",
-    alignItems: "center",
-  },
 });
 
 export default SearchBar;
