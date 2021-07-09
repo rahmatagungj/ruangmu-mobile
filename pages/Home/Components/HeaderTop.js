@@ -41,7 +41,7 @@ const HeaderTops = styled.View`
 
 const GroupOne = styled.View`
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
   flex-direction: row;
 `;
 
@@ -60,7 +60,11 @@ const TextName = styled.Text`
   color: #ffffff;
 `;
 
-const UserPicture = styled.Image``;
+const UserPicture = styled.Image`
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 100px;
+`;
 
 const Divier = styled.View`
   width: 153px;

@@ -12,6 +12,33 @@ import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
 
+const DataClass = [
+  {
+    bgColor: "#bd3725",
+    Name: "Model-Model Pembelajaran",
+    Teacher: "ERNA JUHERNA, M.PD.I.",
+    Picture: require("../../assets/erna.png"),
+  },
+  {
+    bgColor: "#7782FD",
+    Name: "Bahasa Inggris Dasar",
+    Teacher: "BADROENI, M.PD.",
+    Picture: require("../../assets/badroeni.png"),
+  },
+  {
+    bgColor: "#F8B748",
+    Name: "Etika Profesi Keguruan",
+    Teacher: "IRFAN FAJRUL FALAH, M.PD.",
+    Picture: require("../../assets/irfan.png"),
+  },
+  {
+    bgColor: "#02B078",
+    Name: "Teori - Teori Pembelajaran",
+    Teacher: "AJENG RAHAYU TRESNA DEWI, M.PD.",
+    Picture: require("../../assets/ajeng.png"),
+  },
+];
+
 const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -27,30 +54,16 @@ const HomeScreen = () => {
             <Sort source={require("../../assets/sort.png")} />
           </FlexView>
           <ListClass>
-            <InClass
-              color="#bd3725"
-              title="Model-Model Pembelajaran"
-              name="ERNA JUHERNA, M.PD.I."
-              picture={require("../../assets/erna.png")}
-            />
-            <InClass
-              color="#7782FD"
-              title="Bahasa Inggris Dasar"
-              name="BADROENI, M.PD."
-              picture={require("../../assets/badroeni.png")}
-            />
-            <InClass
-              color="#F8B748"
-              title="Etika Profesi Keguruan"
-              name="IRFAN FAJRUL FALAH, M.PD."
-              picture={require("../../assets/irfan.png")}
-            />
-            <InClass
-              color="#02B078"
-              title="Teori - Teori Pembelajaran"
-              name="AJENG RAHAYU TRESNA DEWI, M.PD."
-              picture={require("../../assets/ajeng.png")}
-            />
+            {DataClass.map((classes, idx) => {
+              return (
+                <InClass
+                  color={classes.bgColor}
+                  title={classes.Name}
+                  name={classes.Teacher}
+                  picture={classes.Picture}
+                />
+              );
+            })}
           </ListClass>
         </ScrollView>
       </Screen>
@@ -62,6 +75,7 @@ const Screen = styled.View`
   font-variant: small-caps;
   background-color: #f6f9fd;
   height: 100%;
+  flex: 1;
 `;
 
 const ListClass = styled.View`
@@ -69,46 +83,7 @@ const ListClass = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
-`;
-
-const ClassOne = styled.View`
-  background: #df3620;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  min-height: 130px;
-  min-width: 130px;
-  padding: 10px;
-  margin-top: 10px;
-`;
-
-const ClassTwo = styled.View`
-  background: #7782fd;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  min-height: 130px;
-  min-width: 130px;
-  padding: 10px;
-  margin-top: 10px;
-`;
-
-const ClassThere = styled.View`
-  background: #f8b748;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  min-height: 130px;
-  min-width: 130px;
-  padding: 10px;
-  margin-top: 25px;
-`;
-
-const ClassFour = styled.View`
-  background: #02b078;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  min-height: 130px;
-  min-width: 130px;
-  padding: 10px;
-  margin-top: 25px;
+  padding-bottom: 100px;
 `;
 
 const TitleClass = styled.Text`

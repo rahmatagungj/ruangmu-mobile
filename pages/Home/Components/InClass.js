@@ -32,10 +32,9 @@ const ClassContainer = styled.View`
   background: ${(props) => props.color || "#707070"};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
-  min-height: 130px;
-  min-width: 130px;
+  min-height: 150px;
+  min-width: 150px;
   padding: 10px;
-  margin: 10px;
   margin-top: 20px;
   elevation: 4;
   position: relative;
@@ -60,7 +59,7 @@ const TeacherBackground = styled.View`
 
 const DetailClass = styled.View`
   height: 45px;
-  width: 100%;
+  width: 98%;
   position: absolute;
   bottom: 0px;
   border-bottom-left-radius: 15px;

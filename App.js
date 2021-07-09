@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text, View, Alert, SafeAreaView } from "react-native";
 import styled from "styled-components/native";
@@ -9,30 +8,16 @@ import HomeScreen from "./pages/Home/HomeScreen";
 import NotificationScreen from "./pages/Notification/NotificationScreen";
 import TaskScreen from "./pages/Task/TaskScreen";
 import AccountScreen from "./pages/Account/AccountScreen";
+import StatusBar from "./components/StatusBar";
 
 const Tab = createBottomTabNavigator();
 const { useEffect } = React;
 
 function App() {
-  useEffect(() => {
-    // Alert.alert(
-    //   "Pemberitahuan",
-    //   "Aplikasi ini sedang dalam tahap pengembangan, jika memiliki ide atau kesalahan pada aplikasi harap hubungi pengembang.",
-    //   [
-    //     {
-    //       text: "Batal",
-    //       onPress: () => exit(),
-    //       style: "cancel",
-    //     },
-    //     { text: "OK", onPress: () => console.log("OK Pressed") },
-    //   ]
-    // );
-  }, []);
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar style="auto" />
+        <StatusBar backgroundColor="#000000" barStyle="light-content" />
         <Tab.Navigator
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
