@@ -81,13 +81,11 @@ const GroupTwo = styled.View`
 
 const OwnTitle = styled.Text`
   color: white;
-  font-size: 23px;
+  font-size: 20px;
   font-weight: 700;
-  width: 60%;
+  max-width: 180px;
 `;
 
-const StatusUser = styled.Image`
-  margin-left: -100px;
-`;
+const StatusUser = styled.Image``;
 
 export default HeaderTop;
