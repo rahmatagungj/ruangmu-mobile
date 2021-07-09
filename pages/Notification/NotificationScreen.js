@@ -1,35 +1,31 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableHighlight } from "react-native";
 import styled from "styled-components";
-
-const DataNotification = [
-  {
-    Image: require("../../assets/user.png"),
-    Name: "Rahmat Agung Julians",
-    Content:
-      "Terima kasih sudah membantu dalam pengetesan aplikasi, jika memiliki ide atau kesalahan pada aplikasi harap hubungi pengembang di instagram.com/rahmatagungj.",
-    Time: "1 Jam lalu",
-  },
-  {
-    Image: require("../../assets/alertNotification.png"),
-    Name: "Sistem",
-    Content: "Aplikasi sedang dalam tahap pengembangan.",
-    Time: "2 Jam lalu",
-  },
-];
+import { AntDesign } from "@expo/vector-icons";
+import DataNotification from "../../Data/DataNotification";
 
 const NotificationScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       {DataNotification.map((notif, idx) => {
         return (
-          <ContainerNotification>
+          <ContainerNotification key={idx}>
             <Images source={notif.Image} />
             <Content>
               <TitleNotification>{notif.Name}</TitleNotification>
               <ContentNotification>{notif.Content}</ContentNotification>
               <TimeNotification>{notif.Time}</TimeNotification>
             </Content>
+            <CloseNotification>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() =>
+                  alert(`Tombol tutup notifikasi berhasil ditekan!`)
+                }
+              >
+                <AntDesign name="close" size={20} color="black" />
+              </TouchableHighlight>
+            </CloseNotification>
           </ContainerNotification>
         );
       })}
@@ -46,7 +42,7 @@ const ContainerNotification = styled.View`
 
 const Content = styled.View`
   margin-left: 10px;
-  max-width: 80%;
+  max-width: 75%;
 `;
 
 const TitleNotification = styled.Text`
@@ -62,6 +58,7 @@ const ContentNotification = styled.Text`
   font-size: 12px;
   line-height: 12px;
   margin-top: 2px;
+  position: relative;
 `;
 
 const Images = styled.Image`
@@ -74,6 +71,11 @@ const TimeNotification = styled.Text`
   font-size: 12px;
   font-weight: 700;
   margin-top: 5px;
+`;
+
+const CloseNotification = styled.View`
+  position: absolute;
+  right: 15px;
 `;
 
 export default NotificationScreen;

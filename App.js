@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, Alert, SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,16 +9,24 @@ import NotificationScreen from "./pages/Notification/NotificationScreen";
 import TaskScreen from "./pages/Task/TaskScreen";
 import AccountScreen from "./pages/Account/AccountScreen";
 import StatusBar from "./components/StatusBar";
+import DataNotification from "./Data/DataNotification";
 
 const Tab = createBottomTabNavigator();
-const { useEffect } = React;
 
 function App() {
+  const [countNotification, setCountNotification] = useState(0);
+
+  useEffect(() => {
+    setCountNotification(Object.keys(DataNotification).length);
+    return () => {};
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
         <StatusBar backgroundColor="#000000" barStyle="light-content" />
         <Tab.Navigator
+          lazy={true}
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               if (route.name === "Beranda") {
@@ -72,7 +80,11 @@ function App() {
         >
           <Tab.Screen name="Beranda" component={HomeScreen} />
           <Tab.Screen name="Tugas" component={TaskScreen} />
-          <Tab.Screen name="Notifikasi" component={NotificationScreen} />
+          <Tab.Screen
+            name="Notifikasi"
+            component={NotificationScreen}
+            options={{ tabBarBadge: countNotification }}
+          />
           <Tab.Screen name="Akun" component={AccountScreen} />
         </Tab.Navigator>
       </NavigationContainer>

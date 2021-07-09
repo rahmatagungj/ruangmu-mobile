@@ -1,15 +1,16 @@
 import React from "react";
 import { View, Text, Image, TextInput, StyleSheet } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 const SearchBar = () => {
   return (
     <View style={styles.sectionStyle}>
-      <Image source={require("../../../assets/magnify.png")} />
       <TextInput
         style={{ flex: 1 }}
         placeholder="Mencari sesuatu?"
         underlineColorAndroid="transparent"
       />
+      <Entypo name="magnifying-glass" size={24} color="black" />
     </View>
   );
 };

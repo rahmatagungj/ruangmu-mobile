@@ -11,33 +11,8 @@ import {
 import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
-
-const DataClass = [
-  {
-    bgColor: "#bd3725",
-    Name: "Model-Model Pembelajaran",
-    Teacher: "ERNA JUHERNA, M.PD.I.",
-    Picture: require("../../assets/erna.png"),
-  },
-  {
-    bgColor: "#7782FD",
-    Name: "Bahasa Inggris Dasar",
-    Teacher: "BADROENI, M.PD.",
-    Picture: require("../../assets/badroeni.png"),
-  },
-  {
-    bgColor: "#F8B748",
-    Name: "Etika Profesi Keguruan",
-    Teacher: "IRFAN FAJRUL FALAH, M.PD.",
-    Picture: require("../../assets/irfan.png"),
-  },
-  {
-    bgColor: "#02B078",
-    Name: "Teori - Teori Pembelajaran",
-    Teacher: "AJENG RAHAYU TRESNA DEWI, M.PD.",
-    Picture: require("../../assets/ajeng.png"),
-  },
-];
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import DataClass from "../../Data/DataClass";
 
 const HomeScreen = () => {
   return (
@@ -51,12 +26,20 @@ const HomeScreen = () => {
           <SearchBar />
           <FlexView>
             <TitleClass>Daftar Kelas</TitleClass>
-            <Sort source={require("../../assets/sort.png")} />
+            <Sort>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => alert(`Tombol pengurutan berhasil ditekan!`)}
+              >
+                <MaterialCommunityIcons name="sort" size={24} color="black" />
+              </TouchableHighlight>
+            </Sort>
           </FlexView>
           <ListClass>
             {DataClass.map((classes, idx) => {
               return (
                 <InClass
+                  key={idx}
                   color={classes.bgColor}
                   title={classes.Name}
                   name={classes.Teacher}
@@ -99,8 +82,8 @@ const FlexView = styled.View`
   align-items: center;
 `;
 
-const Sort = styled.Image`
-  margin-top: 3px;
+const Sort = styled.View`
+  margin-top: 5px;
 `;
 
 export default HomeScreen;

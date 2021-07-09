@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ruangmu",
-    "slug": "ruangmu",
-    "version": "0.0.1",
+    "name": "Ruangmu Mobile",
+    "slug": "ruangmu-mobile",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
