@@ -3,6 +3,7 @@
     "name": "Ruangmu Mobile",
     "slug": "ruangmu-mobile",
     "version": "0.0.2",
+    "sdkVersion": "41.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.stkip.ruangmu"
+      "package": "com.stkip.ruangmu",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
