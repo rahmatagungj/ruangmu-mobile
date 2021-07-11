@@ -20,7 +20,10 @@ const InClass = ({ title, color, name, picture, navigation }) => {
         <TitleClass>{title}</TitleClass>
         <DetailClass>
           <Teacher>
-            <Avatars source={{ uri: picture }} />
+            <Avatars
+              source={{ uri: picture }}
+              defaultSource={require("../../../assets/defaultUser.png")}
+            />
             <Name>{name}</Name>
           </Teacher>
           <TeacherBackground />
@@ -76,6 +79,7 @@ const Avatars = styled.Image`
   margin-left: 6px;
   width: 37px;
   height: 37px;
+  border-radius: 100px;
 `;
 
 const Teacher = styled.View`

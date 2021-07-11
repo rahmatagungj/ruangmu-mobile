@@ -22,7 +22,10 @@ const ClassScreen = ({ route, navigation }) => {
           <Entypo name="chat" size={24} color="white" />
         </Header>
         <ContainerTop color={color}>
-          <TeacherPicture source={{ uri: picture }} />
+          <TeacherPicture
+            source={{ uri: picture }}
+            defaultSource={require("../../assets/defaultUser.png")}
+          />
           <Container>
             <TitleClass>{title}</TitleClass>
             <Divier />
@@ -87,6 +90,7 @@ const TeacherName = styled.Text`
 const TeacherPicture = styled.Image`
   width: 100px;
   height: 100px;
+  border-radius: 100px;
 `;
 
 const Divier = styled.View`

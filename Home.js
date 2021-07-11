@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
@@ -13,11 +13,17 @@ import TaskContext from "./Context/TaskContext";
 
 const Tab = createBottomTabNavigator();
 
-function Home({ navigation }) {
+function Home({ route, navigation }) {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
+
+  useEffect(() => {
+    setNotificationCount(route.params.notificationCount);
+    setTaskCount(route.params.taskCount);
+    return () => {};
+  }, []);
 
   return (
     <>

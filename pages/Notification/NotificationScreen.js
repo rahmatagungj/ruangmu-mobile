@@ -35,7 +35,10 @@ const NotificationScreen = () => {
           notificationToShow.map((notif, idx) => {
             return (
               <ContainerNotification key={idx}>
-                <Images source={{ uri: notif.Image }} />
+                <Images
+                  source={{ uri: notif.Image }}
+                  defaultSource={require("../../assets/defaultUser.png")}
+                />
                 <Content>
                   <TitleNotification>{notif.Name}</TitleNotification>
                   <ContentNotification>{notif.Content}</ContentNotification>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
@@ -11,10 +11,9 @@ import ClassScreen from "./Pages/Class/ClassScreen";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
 import DataUserContext from "./Context/DataUserContext";
+import DevModeContext from "./Context/DevModeContext";
 
 const Stack = createStackNavigator();
-
-const DEVMODE = true;
 
 const slides = [
   {
@@ -38,6 +37,7 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
+  const [devMode, setDevMode] = useState(false);
 
   const renderItem = ({ item }) => {
     return (
@@ -69,40 +69,42 @@ const App = () => {
     setShowRealApp(true);
   };
 
-  if (showRealApp || DEVMODE) {
+  if (showRealApp || devMode) {
     return (
-      <DataUserContext.Provider value={[dataUser, setDataUser]}>
-        <NotificationContext.Provider
-          value={[notificationCount, setNotificationCount]}
-        >
-          <TaskContext.Provider value={[taskCount, setTaskCount]}>
-            <NavigationContainer>
-              <Stack.Navigator initialRouteName="Login">
-                <Stack.Screen
-                  name="Login"
-                  component={Login}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Home"
-                  component={Home}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="TaskDetails"
-                  component={TaskDetails}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="ClassScreen"
-                  component={ClassScreen}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </TaskContext.Provider>
-        </NotificationContext.Provider>
-      </DataUserContext.Provider>
+      <DevModeContext.Provider value={[devMode, setDevMode]}>
+        <DataUserContext.Provider value={[dataUser, setDataUser]}>
+          <NotificationContext.Provider
+            value={[notificationCount, setNotificationCount]}
+          >
+            <TaskContext.Provider value={[taskCount, setTaskCount]}>
+              <NavigationContainer>
+                <Stack.Navigator initialRouteName="Login">
+                  <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="TaskDetails"
+                    component={TaskDetails}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="ClassScreen"
+                    component={ClassScreen}
+                    options={{ headerShown: false }}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </TaskContext.Provider>
+          </NotificationContext.Provider>
+        </DataUserContext.Provider>
+      </DevModeContext.Provider>
     );
   } else {
     return (

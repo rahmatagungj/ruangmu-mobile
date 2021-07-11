@@ -19,7 +19,10 @@ const TaskDetails = ({ route, navigation }) => {
             <Ionicons name="ios-chevron-back" size={24} color="black" />
           </TouchableOpacity>
           <FlexRow>
-            <TeacherPicture source={{ uri: picture }} />
+            <TeacherPicture
+              source={{ uri: picture }}
+              defaultSource={require("../../../assets/defaultUser.png")}
+            />
             <TeacherName>{teacher}</TeacherName>
           </FlexRow>
         </Header>

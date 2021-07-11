@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
   View,
@@ -17,14 +17,16 @@ import LoadingCircle from "./Components/LoadingCircle";
 import DataUserContext from "./Context/DataUserContext";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
+import DevModeContext from "./Context/DevModeContext";
 
 const Login = ({ navigation }) => {
+  const [devMode, setDevMode] = useContext(DevModeContext);
   const [nim, setNim] = useState("");
   const [password, setPassword] = useState("");
   const [dataUser, setDataUser] = useContext(DataUserContext);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
@@ -51,15 +53,22 @@ const Login = ({ navigation }) => {
       });
   };
 
-  const handleLogin = () => {
-    if (nim.length > 0 && password.length > 0) {
+  useEffect(() => {
+    if (isLoaded && !error) {
+      navigation.replace("Home", {
+        notificationCount: Object.keys(dataUser["Notification"]).length,
+        taskCount: Object.keys(dataUser["Task"]).length,
+      });
+    }
+    return () => {
+      setLoading(false);
+    };
+  }, [isLoaded, error]);
+
+  const handleLogin = async () => {
+    if ((nim.length > 0 && password.length > 0) || devMode) {
       setLoading(true);
       getDataUser();
-      if (isLoaded & !error) {
-        setNotificationCount(Object.keys(dataUser["Notification"]).length);
-        setTaskCount(Object.keys(dataUser["Notification"]).length);
-        navigation.replace("Home");
-      }
     } else {
       showAlertLogin();
     }

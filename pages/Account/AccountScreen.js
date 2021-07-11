@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
-const AccountScreen = () => {
+import { Button } from "../../Components/Button";
+import DataUserContext from "../../Context/DataUserContext";
+
+const AccountScreen = ({ navigation }) => {
+  const [dataUser, setDataUser] = useContext(DataUserContext);
+
+  const HandleLogout = () => {
+    navigation.replace("Login");
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#F6F9FD" }}>
       <ContainerTop>
@@ -21,6 +30,7 @@ const AccountScreen = () => {
           <VerifiedEmail>rahmatagungj@gmail.com</VerifiedEmail>
         </MetaContent>
       </ContentCenter>
+      <ButtonLogout title="Keluar" onPress={HandleLogout} />
     </View>
   );
 };
@@ -93,6 +103,16 @@ const VerifiedEmail = styled.Text`
   font-size: 12px;
   line-height: 15px;
   color: #333333;
+`;
+
+const ButtonLogout = styled(Button)`
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background: #073c64;
+  width: 80%;
 `;
 
 export default AccountScreen;

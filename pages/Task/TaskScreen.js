@@ -2,8 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
-import useApiRequest from "../../Hooks/useApiRequest";
-import LoadingCircle from "../../Components/LoadingCircle";
 import TaskContext from "../../Context/TaskContext";
 import DataUserContext from "../../Context/DataUserContext";
 
@@ -11,18 +9,16 @@ const TaskScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
 
-  useEffect(() => {
-    setTaskCount(Object.keys(dataUser["Task"]).length);
-    return () => {};
-  }, [dataUser]);
-
   const RenderTaskItem = ({ DataTask }) => {
     return (
       <>
         {DataTask.map((task, idx) => {
           return (
             <ContainerTask key={idx}>
-              <TeacherPicture source={{ uri: task.Picture }} />
+              <TeacherPicture
+                source={{ uri: task.Picture }}
+                defaultSource={require("../../assets/defaultUser.png")}
+              />
               <LimitedView>
                 <Teacher>{task.Name}</Teacher>
                 <ContainerDetailTask>
