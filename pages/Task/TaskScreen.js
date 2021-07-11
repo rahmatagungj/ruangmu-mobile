@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
 import useApiRequest from "../../Hooks/useApiRequest";
 import LoadingCircle from "../../Components/LoadingCircle";
+import TaskContext from "../../Context/TaskContext";
+import DataUserContext from "../../Context/DataUserContext";
 
 const TaskScreen = ({ navigation }) => {
-  const { data, error, isLoaded } = useApiRequest(
-    "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/Task"
-  );
+  const [dataUser, setDataUser] = useContext(DataUserContext);
+  const [taskCount, setTaskCount] = useContext(TaskContext);
+
+  useEffect(() => {
+    setTaskCount(Object.keys(dataUser["Task"]).length);
+    return () => {};
+  }, [dataUser]);
 
   const RenderTaskItem = ({ DataTask }) => {
     return (
@@ -51,11 +57,7 @@ const TaskScreen = ({ navigation }) => {
     >
       <Views>
         <TitlePage>Daftar Tugas</TitlePage>
-        {isLoaded && !error ? (
-          <RenderTaskItem DataTask={data} />
-        ) : (
-          <LoadingCircle />
-        )}
+        <RenderTaskItem DataTask={dataUser["Task"]} />
       </Views>
     </ScrollView>
   );

@@ -1,34 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
-import useApiRequest from "../../Hooks/useApiRequest";
-import LoadingCircle from "../../Components/LoadingCircle";
+import DataUserContext from "../../Context/DataUserContext";
+import NotificationContext from "../../Context/NotificationContext";
 
 const NotificationScreen = () => {
-  const [allNotification, setAllNotification] = useState({});
-
-  const { data, error, isLoaded } = useApiRequest(
-    "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/Notification"
+  const [allNotification] = useContext(DataUserContext);
+  const [notificationToShow, setNotificationToShow] = useState(
+    allNotification["Notification"]
   );
 
+  const [notificationCount, setNotificationCount] =
+    useContext(NotificationContext);
+
   const handleCloseNotification = (key) => {
-    const newNotification = allNotification.filter((item) => item.key !== key);
-    setAllNotification(newNotification);
+    const newNotification = notificationToShow.filter(
+      (item) => item.key !== key
+    );
+    setNotificationToShow(newNotification);
   };
 
   useEffect(() => {
-    setAllNotification(data);
+    setNotificationCount(Object.keys(notificationToShow).length);
     return () => {
-      setAllNotification({});
+      setNotificationCount(0);
     };
-  }, [data]);
+  }, [notificationToShow]);
 
   const RenderNotificationItem = () => {
     return (
       <>
-        {allNotification.length > 0 ? (
-          allNotification.map((notif, idx) => {
+        {notificationToShow.length > 0 ? (
+          notificationToShow.map((notif, idx) => {
             return (
               <ContainerNotification key={idx}>
                 <Images source={{ uri: notif.Image }} />
@@ -60,11 +64,7 @@ const NotificationScreen = () => {
   return (
     <Views>
       <TitlePage>Notifikasi</TitlePage>
-      {isLoaded && !error ? (
-        <RenderNotificationItem DataNotification={allNotification} />
-      ) : (
-        <LoadingCircle />
-      )}
+      <RenderNotificationItem DataNotification={allNotification} />
     </Views>
   );
 };

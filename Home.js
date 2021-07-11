@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, Alert } from "react-native";
-import styled from "styled-components/native";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState, useContext } from "react";
+import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "./Pages/Home/HomeScreen";
@@ -9,9 +7,18 @@ import NotificationScreen from "./Pages/Notification/NotificationScreen";
 import TaskScreen from "./Pages/Task/TaskScreen";
 import AccountScreen from "./Pages/Account/AccountScreen";
 import StatusBar from "./Components/StatusBar";
+import DataUserContext from "./Context/DataUserContext";
+import NotificationContext from "./Context/NotificationContext";
+import TaskContext from "./Context/TaskContext";
+
 const Tab = createBottomTabNavigator();
 
 function Home({ navigation }) {
+  const [dataUser, setDataUser] = useContext(DataUserContext);
+  const [notificationCount, setNotificationCount] =
+    useContext(NotificationContext);
+  const [taskCount, setTaskCount] = useContext(TaskContext);
+
   return (
     <>
       <StatusBar backgroundColor="#000000" barStyle="light-content" />
@@ -69,8 +76,18 @@ function Home({ navigation }) {
         }}
       >
         <Tab.Screen name="Beranda" component={HomeScreen} />
-        <Tab.Screen name="Tugas" component={TaskScreen} />
-        <Tab.Screen name="Notifikasi" component={NotificationScreen} />
+        <Tab.Screen
+          name="Tugas"
+          component={TaskScreen}
+          options={taskCount > 0 ? { tabBarBadge: taskCount } : null}
+        />
+        <Tab.Screen
+          name="Notifikasi"
+          component={NotificationScreen}
+          options={
+            notificationCount > 0 ? { tabBarBadge: notificationCount } : null
+          }
+        />
         <Tab.Screen name="Akun" component={AccountScreen} />
       </Tab.Navigator>
     </>

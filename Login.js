@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -12,10 +12,22 @@ import styled from "styled-components/native";
 import StatusBar from "./Components/StatusBar";
 import { Button } from "./Components/Button";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
+import LoadingCircle from "./Components/LoadingCircle";
+import DataUserContext from "./Context/DataUserContext";
+import NotificationContext from "./Context/NotificationContext";
+import TaskContext from "./Context/TaskContext";
 
 const Login = ({ navigation }) => {
   const [nim, setNim] = useState("");
   const [password, setPassword] = useState("");
+  const [dataUser, setDataUser] = useContext(DataUserContext);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [notificationCount, setNotificationCount] =
+    useContext(NotificationContext);
+  const [taskCount, setTaskCount] = useContext(TaskContext);
 
   const showAlertLogin = () => {
     Alert.alert("Pemberitahuan", "Nim dan Password wajib di isi!", [
@@ -23,9 +35,31 @@ const Login = ({ navigation }) => {
     ]);
   };
 
+  const getDataUser = () => {
+    axios
+      .get(
+        "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/db"
+      )
+      .then((response) => {
+        setDataUser(response.data);
+        setLoading(false);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+  };
+
   const handleLogin = () => {
     if (nim.length > 0 && password.length > 0) {
-      navigation.replace("Home");
+      setLoading(true);
+      getDataUser();
+      if (isLoaded & !error) {
+        setNotificationCount(Object.keys(dataUser["Notification"]).length);
+        setTaskCount(Object.keys(dataUser["Notification"]).length);
+        navigation.replace("Home");
+      }
     } else {
       showAlertLogin();
     }
@@ -56,7 +90,11 @@ const Login = ({ navigation }) => {
             onChangeText={(text) => setPassword(text)}
           />
         </ContainerForm>
-        <Buttons title="Masuk" onPress={handleLogin} />
+        {loading ? (
+          <LoadingCircle />
+        ) : (
+          <Buttons title="Masuk" onPress={handleLogin} />
+        )}
       </ContainerCenter>
     </KeyboardAvoidingView>
   );

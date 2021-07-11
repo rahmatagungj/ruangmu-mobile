@@ -8,6 +8,9 @@ import AppIntroSlider from "react-native-app-intro-slider";
 import styled from "styled-components/native";
 import TaskDetails from "./Pages/Task/TaskDetails/TaskDetails";
 import ClassScreen from "./Pages/Class/ClassScreen";
+import NotificationContext from "./Context/NotificationContext";
+import TaskContext from "./Context/TaskContext";
+import DataUserContext from "./Context/DataUserContext";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +35,9 @@ const slides = [
 
 const App = () => {
   const [showRealApp, setShowRealApp] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [taskCount, setTaskCount] = useState(0);
+  const [dataUser, setDataUser] = useState({});
 
   const renderItem = ({ item }) => {
     return (
@@ -65,30 +71,38 @@ const App = () => {
 
   if (showRealApp || DEVMODE) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="TaskDetails"
-            component={TaskDetails}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ClassScreen"
-            component={ClassScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <DataUserContext.Provider value={[dataUser, setDataUser]}>
+        <NotificationContext.Provider
+          value={[notificationCount, setNotificationCount]}
+        >
+          <TaskContext.Provider value={[taskCount, setTaskCount]}>
+            <NavigationContainer>
+              <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Home"
+                  component={Home}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TaskDetails"
+                  component={TaskDetails}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="ClassScreen"
+                  component={ClassScreen}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </TaskContext.Provider>
+        </NotificationContext.Provider>
+      </DataUserContext.Provider>
     );
   } else {
     return (

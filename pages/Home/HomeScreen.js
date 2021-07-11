@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components/native";
 import {
   Text,
@@ -12,13 +12,10 @@ import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import useApiRequest from "../../Hooks/useApiRequest";
-import LoadingCircle from "../../Components/LoadingCircle";
+import DataUserContext from "../../Context/DataUserContext";
 
 const HomeScreen = ({ navigation }) => {
-  const { data, error, isLoaded } = useApiRequest(
-    "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/Class"
-  );
+  const [dataUser, setDataUser] = useContext(DataUserContext);
 
   const RenderClassItem = ({ DataClass }) => {
     return (
@@ -60,11 +57,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableHighlight>
             </Sort>
           </FlexView>
-          {isLoaded && !error ? (
-            <RenderClassItem DataClass={data} />
-          ) : (
-            <LoadingCircle />
-          )}
+          <RenderClassItem DataClass={dataUser["Class"]} />
         </ScrollView>
       </Screen>
     </SafeAreaView>
