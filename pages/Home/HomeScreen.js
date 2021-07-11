@@ -12,15 +12,40 @@ import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DataClass from "../../Data/DataClass";
+import useApiRequest from "../../Hooks/useApiRequest";
+import LoadingCircle from "../../Components/LoadingCircle";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const { data, error, isLoaded } = useApiRequest(
+    "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/Class"
+  );
+
+  const RenderClassItem = ({ DataClass }) => {
+    return (
+      <ListClass>
+        {DataClass.map((classes, idx) => {
+          return (
+            <InClass
+              key={idx}
+              color={classes.bgColor}
+              title={classes.Name}
+              name={classes.Teacher}
+              picture={classes.Picture}
+              navigation={navigation}
+            />
+          );
+        })}
+      </ListClass>
+    );
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Screen>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          bounces={false}
         >
           <HeaderTop />
           <SearchBar />
@@ -35,19 +60,11 @@ const HomeScreen = () => {
               </TouchableHighlight>
             </Sort>
           </FlexView>
-          <ListClass>
-            {DataClass.map((classes, idx) => {
-              return (
-                <InClass
-                  key={idx}
-                  color={classes.bgColor}
-                  title={classes.Name}
-                  name={classes.Teacher}
-                  picture={classes.Picture}
-                />
-              );
-            })}
-          </ListClass>
+          {isLoaded && !error ? (
+            <RenderClassItem DataClass={data} />
+          ) : (
+            <LoadingCircle />
+          )}
         </ScrollView>
       </Screen>
     </SafeAreaView>

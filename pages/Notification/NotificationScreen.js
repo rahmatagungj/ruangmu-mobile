@@ -1,42 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
-import DataNotification from "../../Data/DataNotification";
+import useApiRequest from "../../Hooks/useApiRequest";
+import LoadingCircle from "../../Components/LoadingCircle";
 
 const NotificationScreen = () => {
+  const [allNotification, setAllNotification] = useState({});
+
+  const { data, error, isLoaded } = useApiRequest(
+    "https://my-json-server.typicode.com/rahmatagungj/ruangmu-mobile-api/Notification"
+  );
+
+  const handleCloseNotification = (key) => {
+    const newNotification = allNotification.filter((item) => item.key !== key);
+    setAllNotification(newNotification);
+  };
+
+  useEffect(() => {
+    setAllNotification(data);
+    return () => {
+      setAllNotification({});
+    };
+  }, [data]);
+
+  const RenderNotificationItem = () => {
+    return (
+      <>
+        {allNotification.length > 0 ? (
+          allNotification.map((notif, idx) => {
+            return (
+              <ContainerNotification key={idx}>
+                <Images source={notif.Image} />
+                <Content>
+                  <TitleNotification>{notif.Name}</TitleNotification>
+                  <ContentNotification>{notif.Content}</ContentNotification>
+                  <TimeNotification>{notif.Time}</TimeNotification>
+                </Content>
+                <CloseNotification>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => handleCloseNotification(notif.key)}
+                  >
+                    <AntDesign name="close" size={20} color="black" />
+                  </TouchableHighlight>
+                </CloseNotification>
+              </ContainerNotification>
+            );
+          })
+        ) : (
+          <CenteredOnScreen>
+            <Text>Tidak ada notifikasi!</Text>
+          </CenteredOnScreen>
+        )}
+      </>
+    );
+  };
+
   return (
-    <View style={{ flex: 1 }}>
-      {DataNotification.map((notif, idx) => {
-        return (
-          <ContainerNotification key={idx}>
-            <Images source={notif.Image} />
-            <Content>
-              <TitleNotification>{notif.Name}</TitleNotification>
-              <ContentNotification>{notif.Content}</ContentNotification>
-              <TimeNotification>{notif.Time}</TimeNotification>
-            </Content>
-            <CloseNotification>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() =>
-                  alert(`Tombol tutup notifikasi berhasil ditekan!`)
-                }
-              >
-                <AntDesign name="close" size={20} color="black" />
-              </TouchableHighlight>
-            </CloseNotification>
-          </ContainerNotification>
-        );
-      })}
-    </View>
+    <Views>
+      <TitlePage>Notifikasi</TitlePage>
+      {isLoaded && !error ? (
+        <RenderNotificationItem DataNotification={allNotification} />
+      ) : (
+        <LoadingCircle />
+      )}
+    </Views>
   );
 };
+
+const Views = styled.View`
+  flex: 1;
+`;
+
+const TitlePage = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+`;
 
 const ContainerNotification = styled.View`
   padding: 10px;
   flex-direction: row;
-  background: #f5f5f5;
+  background: #e7e7e7;
   align-items: center;
 `;
 
@@ -62,8 +108,8 @@ const ContentNotification = styled.Text`
 `;
 
 const Images = styled.Image`
-  max-width: 50px;
-  max-height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 100px;
 `;
 
@@ -76,6 +122,13 @@ const TimeNotification = styled.Text`
 const CloseNotification = styled.View`
   position: absolute;
   right: 15px;
+`;
+
+const CenteredOnScreen = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 `;
 
 export default NotificationScreen;

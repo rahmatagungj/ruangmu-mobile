@@ -4,23 +4,14 @@ import styled from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import HomeScreen from "./pages/Home/HomeScreen";
-import NotificationScreen from "./pages/Notification/NotificationScreen";
-import TaskScreen from "./pages/Task/TaskScreen";
-import AccountScreen from "./pages/Account/AccountScreen";
-import StatusBar from "./components/StatusBar";
-import DataNotification from "./Data/DataNotification";
-
+import HomeScreen from "./Pages/Home/HomeScreen";
+import NotificationScreen from "./Pages/Notification/NotificationScreen";
+import TaskScreen from "./Pages/Task/TaskScreen";
+import AccountScreen from "./Pages/Account/AccountScreen";
+import StatusBar from "./Components/StatusBar";
 const Tab = createBottomTabNavigator();
 
-function Home() {
-  const [countNotification, setCountNotification] = useState(0);
-
-  useEffect(() => {
-    setCountNotification(Object.keys(DataNotification).length);
-    return () => {};
-  }, []);
-
+function Home({ navigation }) {
   return (
     <>
       <StatusBar backgroundColor="#000000" barStyle="light-content" />
@@ -79,11 +70,7 @@ function Home() {
       >
         <Tab.Screen name="Beranda" component={HomeScreen} />
         <Tab.Screen name="Tugas" component={TaskScreen} />
-        <Tab.Screen
-          name="Notifikasi"
-          component={NotificationScreen}
-          options={{ tabBarBadge: countNotification }}
-        />
+        <Tab.Screen name="Notifikasi" component={NotificationScreen} />
         <Tab.Screen name="Akun" component={AccountScreen} />
       </Tab.Navigator>
     </>

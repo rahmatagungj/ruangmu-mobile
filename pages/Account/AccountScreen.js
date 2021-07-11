@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 const AccountScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "#F6F9FD" }}>
@@ -75,7 +75,10 @@ const MetaContent = styled.View`
   padding: 10px;
 `;
 
-const BadgeVerified = styled.Image``;
+const BadgeVerified = styled.Image`
+  min-width: 62px;
+  min-height: 62px;
+`;
 
 const VerifiedStatus = styled.Text`
   font-style: normal;

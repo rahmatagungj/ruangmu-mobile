@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowOffset: { height: 10, width: 0 },
     shadowRadius: 20,
-    padding: 10,
+    padding: 9,
   },
   text: {
     fontSize: 16,

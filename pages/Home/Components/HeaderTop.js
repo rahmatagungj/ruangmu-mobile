@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, Image, Dimensions } from "react-native";
 import styled from "styled-components/native";
-
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -61,9 +60,11 @@ const TextName = styled.Text`
 `;
 
 const UserPicture = styled.Image`
-  max-width: 60px;
-  max-height: 60px;
+  width: 60px;
+  height: 60px;
   border-radius: 100px;
+  margin-left: auto;
+  margin-right: 10px;
 `;
 
 const Divier = styled.View`
@@ -77,15 +78,21 @@ const GroupTwo = styled.View`
   margin-top: 20px;
   flex-direction: row;
   align-content: center;
+  width: 100%;
 `;
 
 const OwnTitle = styled.Text`
   color: white;
   font-size: 20px;
   font-weight: 700;
-  max-width: 180px;
+  max-width: 150px;
 `;
 
-const StatusUser = styled.Image``;
+const StatusUser = styled.Image`
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: 10px;
+`;
 
 export default HeaderTop;
