@@ -31,7 +31,7 @@ const NotificationScreen = () => {
           allNotification.map((notif, idx) => {
             return (
               <ContainerNotification key={idx}>
-                <Images source={notif.Image} />
+                <Images source={{ uri: notif.Image }} />
                 <Content>
                   <TitleNotification>{notif.Name}</TitleNotification>
                   <ContentNotification>{notif.Content}</ContentNotification>
