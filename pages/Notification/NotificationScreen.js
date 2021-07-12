@@ -86,6 +86,7 @@ const NotificationScreen = () => {
 
 const Views = styled.View`
   flex: 1;
+  margin-bottom: 100px;
 `;
 
 const TitlePage = styled.Text`

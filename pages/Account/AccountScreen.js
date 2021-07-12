@@ -20,7 +20,7 @@ const AccountScreen = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       bounces={false}
     >
-      <View style={{ flex: 1, backgroundColor: "#F6F9FD" }}>
+      <View style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}>
         <ContainerTop>
           <UserPicture source={require("../../assets/user.png")} />
           <UserName>Rahmat Agung Julians</UserName>

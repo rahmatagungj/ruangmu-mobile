@@ -67,6 +67,7 @@ const TitlePage = styled.Text`
 
 const Views = styled.View`
   flex: 1;
+  margin-bottom: 100px;
 `;
 
 const ContainerTask = styled.View`

@@ -44,8 +44,8 @@ const Divier = styled.View`
 
 const Container = styled.View`
   width: 90%;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 5px;
   margin-bottom: 5px;
 `;

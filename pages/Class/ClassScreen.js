@@ -42,6 +42,7 @@ const ClassScreen = ({ route, navigation }) => {
 
 const Views = styled.View`
   flex: 1;
+  margin-bottom: 100px;
 `;
 
 const Header = styled.View`

@@ -76,7 +76,7 @@ const ListClass = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding-bottom: 100px;
+  margin-bottom: 100px;
 `;
 
 const TitleClass = styled.Text`
