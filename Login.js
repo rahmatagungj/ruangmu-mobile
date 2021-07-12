@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -18,6 +18,7 @@ import DataUserContext from "./Context/DataUserContext";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
 import DevModeContext from "./Context/DevModeContext";
+import * as Animatable from "react-native-animatable";
 
 const Login = ({ navigation }) => {
   const [devMode, setDevMode] = useContext(DevModeContext);
@@ -30,6 +31,8 @@ const Login = ({ navigation }) => {
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
+
+  const secondTextInput = useRef();
 
   const showAlertLogin = () => {
     Alert.alert("Pemberitahuan", "Nim dan Password wajib di isi!", [
@@ -81,28 +84,44 @@ const Login = ({ navigation }) => {
     >
       <ContainerCenter>
         <StatusBar backgroundColor="#F2F2F2" barStyle="dark-content" />
-        <Logo source={require("./assets/logobar.png")} />
+        <Animatable.View animation="fadeInUpBig" iterationCount={1} delay={500}>
+          <Logo source={require("./assets/logobar.png")} />
+        </Animatable.View>
         <Divier />
-        <ContainerForm>
-          <FontAwesome name="user" size={20} color="black" />
-          <FormNim
-            placeholder="Nomor Induk Mahasiswa"
-            underlineColorAndroid="transparent"
-            onChangeText={(text) => setNim(text)}
-          />
-        </ContainerForm>
-        <ContainerForm>
-          <MaterialIcons name="vpn-key" size={20} color="black" />
-          <FormPassword
-            placeholder="Kata Sandi"
-            underlineColorAndroid="transparent"
-            onChangeText={(text) => setPassword(text)}
-          />
-        </ContainerForm>
+        <Animatable.View animation="flipInX" iterationCount={1} delay={1000}>
+          <ContainerForm>
+            <FontAwesome name="user" size={20} color="black" />
+            <FormNim
+              placeholder="Nomor Induk Mahasiswa"
+              underlineColorAndroid="transparent"
+              onChangeText={(text) => setNim(text)}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                secondTextInput.current.focus();
+              }}
+            />
+          </ContainerForm>
+        </Animatable.View>
+        <Animatable.View animation="flipInX" iterationCount={1} delay={1300}>
+          <ContainerForm>
+            <MaterialIcons name="vpn-key" size={20} color="black" />
+            <FormPassword
+              placeholder="Kata Sandi"
+              secureTextEntry={true}
+              returnKeyType="go"
+              underlineColorAndroid="transparent"
+              onChangeText={(text) => setPassword(text)}
+              ref={secondTextInput}
+              onSubmitEditing={handleLogin}
+            />
+          </ContainerForm>
+        </Animatable.View>
         {loading ? (
           <LoadingCircle />
         ) : (
-          <Buttons title="Masuk" onPress={handleLogin} />
+          <Animatable.View animation="zoomIn" iterationCount={1} delay={1500}>
+            <Buttons title="Masuk" onPress={handleLogin} />
+          </Animatable.View>
         )}
       </ContainerCenter>
     </KeyboardAvoidingView>

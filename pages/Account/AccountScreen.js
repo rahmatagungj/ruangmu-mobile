@@ -7,9 +7,11 @@ import About from "./Common/About";
 import Profile from "./Common/Profile";
 import Setting from "./Common/Setting";
 import Notification from "../../Components/Notification";
+import DevModeContext from "../../Context/DevModeContext";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
+  const [devMode, setDevMode] = useContext(DevModeContext);
 
   const HandleLogout = () => {
     navigation.replace("Login");
@@ -21,15 +23,17 @@ const AccountScreen = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       bounces={false}
     >
-      <Notification
-        titles="📝 Tugas Baru"
-        bodys={
-          dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
-          " baru saja mengirim tugas, periksa tugas segera."
-        }
-        secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
-        datas="2"
-      />
+      {!devMode ? (
+        <Notification
+          titles="📝 Tugas Baru"
+          bodys={
+            dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
+            " baru saja mengirim tugas, periksa tugas segera."
+          }
+          secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
+          datas="2"
+        />
+      ) : null}
       <View style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}>
         <ContainerTop>
           <UserPicture source={require("../../assets/user.png")} />

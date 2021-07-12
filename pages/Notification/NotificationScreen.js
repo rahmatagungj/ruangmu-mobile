@@ -17,7 +17,6 @@ const NotificationScreen = () => {
   const [notificationToShow, setNotificationToShow] = useState(
     allNotification["Notification"]
   );
-
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
 
@@ -31,7 +30,6 @@ const NotificationScreen = () => {
   const handleDeleteAllNotification = () => {
     setNotificationToShow({});
   };
-
   useEffect(() => {
     setNotificationCount(Object.keys(notificationToShow).length);
     return () => {
@@ -39,34 +37,36 @@ const NotificationScreen = () => {
     };
   }, [notificationToShow]);
 
-  const RenderNotificationItem = () => {
+  const RenderNotificationItem = ({ DataNotification }) => {
     return (
       <>
-        {notificationToShow.length > 0 ? (
-          notificationToShow.map((notif, idx) => {
+        {DataNotification.length > 0 ? (
+          DataNotification.map((notif, idx) => {
             return (
-              <TouchableHighlight
-                underlayColor="#e7e7e7"
-                onPress={() => null}
-                key={idx}
-              >
-                <ContainerNotification>
-                  <Images source={{ uri: notif.Image }} />
-                  <Content>
-                    <TitleNotification>{notif.Name}</TitleNotification>
-                    <ContentNotification>{notif.Content}</ContentNotification>
-                    <TimeNotification>{notif.Time}</TimeNotification>
-                  </Content>
-                  <CloseNotification>
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => handleCloseNotification(notif.key)}
-                    >
-                      <AntDesign name="close" size={20} color="black" />
-                    </TouchableHighlight>
-                  </CloseNotification>
-                </ContainerNotification>
-              </TouchableHighlight>
+              <View key={notif.key + idx}>
+                <TouchableHighlight
+                  underlayColor="#e7e7e7"
+                  onPress={() => null}
+                >
+                  <ContainerNotification>
+                    <Images source={{ uri: notif.Image }} />
+                    <Content>
+                      <TitleNotification>{notif.Name}</TitleNotification>
+                      <ContentNotification>{notif.Content}</ContentNotification>
+                      <TimeNotification>{notif.Time}</TimeNotification>
+                    </Content>
+
+                    <CloseNotification>
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleCloseNotification(notif.key)}
+                      >
+                        <AntDesign name="close" size={20} color="black" />
+                      </TouchableHighlight>
+                    </CloseNotification>
+                  </ContainerNotification>
+                </TouchableHighlight>
+              </View>
             );
           })
         ) : (
@@ -93,7 +93,7 @@ const NotificationScreen = () => {
             </TouchableOpacity>
           ) : null}
         </FlexRow>
-        <RenderNotificationItem DataNotification={allNotification} />
+        <RenderNotificationItem DataNotification={notificationToShow} />
       </Views>
     </ScrollView>
   );

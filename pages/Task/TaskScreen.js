@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
 import TaskContext from "../../Context/TaskContext";
 import DataUserContext from "../../Context/DataUserContext";
+import * as Animatable from "react-native-animatable";
 
 const TaskScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -14,29 +15,42 @@ const TaskScreen = ({ navigation }) => {
       <>
         {DataTask.map((task, idx) => {
           return (
-            <ContainerTask key={idx}>
-              <TeacherPicture source={{ uri: task.Picture }} />
-              <LimitedView>
-                <Teacher>{task.Name}</Teacher>
-                <ContainerDetailTask>
-                  <TitleTask>{task.Task}</TitleTask>
-                  <DetailsTask>{task.Details}</DetailsTask>
-                  <ButtonTask
-                    title="Buka"
-                    onPress={() =>
-                      navigation.navigate("TaskDetails", {
-                        name: task.Task,
-                        teacher: task.Name,
-                        details: task.Details,
-                        picture: task.Picture,
-                        deadline: task.Deadline,
-                        date: task.Date,
-                      })
-                    }
-                  />
-                </ContainerDetailTask>
-              </LimitedView>
-            </ContainerTask>
+            <Animatable.View
+              animation="fadeIn"
+              iterationCount={1}
+              delay={300 + idx * 600}
+              key={idx}
+            >
+              <ContainerTask>
+                <TeacherPicture source={{ uri: task.Picture }} />
+                <LimitedView>
+                  <Teacher>{task.Name}</Teacher>
+                  <Animatable.View
+                    animation="flipInX"
+                    iterationCount={1}
+                    delay={300 + idx * 500}
+                  >
+                    <ContainerDetailTask>
+                      <TitleTask>{task.Task}</TitleTask>
+                      <DetailsTask>{task.Details}</DetailsTask>
+                      <ButtonTask
+                        title="Buka"
+                        onPress={() =>
+                          navigation.navigate("TaskDetails", {
+                            name: task.Task,
+                            teacher: task.Name,
+                            details: task.Details,
+                            picture: task.Picture,
+                            deadline: task.Deadline,
+                            date: task.Date,
+                          })
+                        }
+                      />
+                    </ContainerDetailTask>
+                  </Animatable.View>
+                </LimitedView>
+              </ContainerTask>
+            </Animatable.View>
           );
         })}
       </>

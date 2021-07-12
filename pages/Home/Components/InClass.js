@@ -1,34 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableHighlight, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import ClassScreen from "../../Class/ClassScreen";
+import * as Animatable from "react-native-animatable";
 
-const InClass = ({ title, color, name, picture, navigation }) => {
+const InClass = ({ title, color, name, picture, navigation, currentDelay }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
-
   return (
-    <TouchableHighlight
-      underlayColor="transparent"
-      onPress={() =>
-        navigation.push("ClassScreen", {
-          title: title,
-          picture: picture,
-          color: color,
-          name: name,
-        })
-      }
+    <Animatable.View
+      animation="slideInUp"
+      iterationCount={1}
+      delay={currentDelay}
     >
-      <ClassContainer color={color}>
-        <TitleClass>{title}</TitleClass>
-        <DetailClass>
-          <Teacher>
-            <Avatars source={{ uri: picture }} />
-            <Name>{name}</Name>
-          </Teacher>
-          <TeacherBackground />
-        </DetailClass>
-      </ClassContainer>
-    </TouchableHighlight>
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() =>
+          navigation.push("ClassScreen", {
+            title: title,
+            picture: picture,
+            color: color,
+            name: name,
+          })
+        }
+      >
+        <ClassContainer color={color}>
+          <TitleClass>{title}</TitleClass>
+          <DetailClass>
+            <Teacher>
+              <Avatars source={{ uri: picture }} />
+              <Name>{name}</Name>
+            </Teacher>
+            <TeacherBackground />
+          </DetailClass>
+        </ClassContainer>
+      </TouchableHighlight>
+    </Animatable.View>
   );
 };
 

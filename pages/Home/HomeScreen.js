@@ -14,9 +14,11 @@ import SearchBar from "./Components/SearchBar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DataUserContext from "../../Context/DataUserContext";
 import Notification from "../../Components/Notification";
+import DevModeContext from "../../Context/DevModeContext";
 
 const HomeScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
+  const [devMode, setDevMode] = useContext(DevModeContext);
 
   const RenderClassItem = ({ DataClass }) => {
     return (
@@ -30,6 +32,7 @@ const HomeScreen = ({ navigation }) => {
               name={classes.Teacher}
               picture={classes.Picture}
               navigation={navigation}
+              currentDelay={500 + idx * 150}
             />
           );
         })}
@@ -39,16 +42,18 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Notification
-        titles={
-          "🔔 Kamu memiliki " +
-          Object.keys(dataUser["Notification"]).length +
-          " pemberitahuan"
-        }
-        bodys={`Hai. Sudah lama tidak melihatmu, periksa pembaruan terkini untukmu.`}
-        secondss={Math.floor(Math.random() * (10 - 3 + 1) + 3)}
-        datas="2"
-      />
+      {!devMode ? (
+        <Notification
+          titles={
+            "🔔 Kamu memiliki " +
+            Object.keys(dataUser["Notification"]).length +
+            " pemberitahuan"
+          }
+          bodys={`Hai. Sudah lama tidak melihatmu, periksa pembaruan terkini untukmu.`}
+          secondss={Math.floor(Math.random() * (10 - 3 + 1) + 3)}
+          datas="2"
+        />
+      ) : null}
       <Screen>
         <ScrollView
           showsHorizontalScrollIndicator={false}

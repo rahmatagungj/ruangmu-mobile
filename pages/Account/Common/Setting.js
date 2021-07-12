@@ -11,6 +11,7 @@ import {
   Linking,
 } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Setting = () => {
   const RenderItem = ({ title, action, onPress }) => {
@@ -41,6 +42,29 @@ const Setting = () => {
     ]);
   };
 
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      ShowMessage(
+        "PEMBERITAHUAN",
+        "Sampah data aplikasi berhasil dibersihkan.",
+        "TUTUP",
+        null
+      );
+    } catch (e) {
+      ShowMessage(
+        "PEMBERITAHUAN",
+        "Sampah data aplikasi gagal dibersihkan.",
+        "TUTUP",
+        null
+      );
+    }
+  };
+
+  const HandleDeleteTrash = () => {
+    clearStorage();
+  };
+
   return (
     <>
       <ContainerBar
@@ -53,14 +77,7 @@ const Setting = () => {
           action={
             <MaterialCommunityIcons name="trash-can" size={20} color="black" />
           }
-          onPress={() =>
-            ShowMessage(
-              "PEMBERITAHUAN",
-              "Sampah data aplikasi berhasil dibersihkan.",
-              "TUTUP",
-              null
-            )
-          }
+          onPress={() => HandleDeleteTrash()}
         />
         <RenderItem
           title="Periksa Pembaruan"

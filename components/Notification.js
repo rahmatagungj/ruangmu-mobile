@@ -33,24 +33,18 @@ export default function App({ titles, bodys, datas, secondss }) {
       .then((token) => {
         if (token) {
           setExpoPushToken(token);
-          notificationListener.current =
-            Notifications.addNotificationReceivedListener((notification) => {
-              setNotification(notification);
-            });
-
-          responseListener.current =
-            Notifications.addNotificationResponseReceivedListener(
-              (response) => {
-                null;
-              }
-            );
         }
       })
-      .catch((e) => {
-        Alert.alert(
-          "ERROR",
-          "Terjadi masalah saat memeriksa izin pemberitahuan Anda, coba lagi nanti."
-        );
+      .catch((e) => null);
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        null;
       });
 
     ShowNotification();

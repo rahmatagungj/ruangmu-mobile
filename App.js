@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
@@ -12,6 +12,8 @@ import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
 import DataUserContext from "./Context/DataUserContext";
 import DevModeContext from "./Context/DevModeContext";
+import AnimatedSplash from "react-native-animated-splash-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +40,28 @@ const App = () => {
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
   const [devMode, setDevMode] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
+
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem("isFirstUse", "yes").then((e) => {});
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("isFirstUse");
+      if (jsonValue != null) {
+        setIsFirst(false);
+      }
+    } catch (e) {
+      // error reading value
+      setIsFirst(false);
+    }
+  };
 
   const renderItem = ({ item }) => {
     return (
@@ -66,8 +90,23 @@ const App = () => {
   };
 
   const onDone = () => {
+    if (isFirst) {
+      storeData();
+    }
     setShowRealApp(true);
   };
+
+  useEffect(() => {
+    getData();
+    if (!isLoaded) {
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 2000);
+    }
+    return () => {
+      setIsLoaded(false);
+    };
+  }, []);
 
   if (showRealApp || devMode) {
     return (
@@ -108,13 +147,28 @@ const App = () => {
     );
   } else {
     return (
-      <AppIntroSlider
-        renderItem={renderItem}
-        data={slides}
-        onDone={onDone}
-        renderNextButton={renderNextButton}
-        renderDoneButton={renderDoneButton}
-      />
+      <>
+        {isFirst ? (
+          <AnimatedSplash
+            translucent={true}
+            isLoaded={isLoaded}
+            logoImage={require("./assets/logobar.png")}
+            backgroundColor={"#ffffff"}
+            logoHeight={246}
+            logoWidth={246}
+          >
+            <AppIntroSlider
+              renderItem={renderItem}
+              data={slides}
+              onDone={onDone}
+              renderNextButton={renderNextButton}
+              renderDoneButton={renderDoneButton}
+            />
+          </AnimatedSplash>
+        ) : (
+          onDone()
+        )}
+      </>
     );
   }
 };
