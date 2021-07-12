@@ -21,12 +21,12 @@
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-button": "^3.0.1",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.2.0",
+    "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.4.0",
+    "react-native-screens": "~3.0.0",
     "react-native-web": "~0.13.12",
     "styled-components": "^5.3.0",
-    "expo-document-picker": "~9.2.4"
+    "expo-document-picker": "~9.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
