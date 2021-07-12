@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, Button, Platform } from "react-native";
+import { Platform, Alert, Linking, View } from "react-native";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -23,25 +23,34 @@ export default function App({ titles, bodys, datas, secondss }) {
         title: titles,
         body: bodys,
         data: { data: datas },
-        sound: "../assets/notification.wav",
       },
       trigger: { seconds: secondss, repeats: false },
     });
   };
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
+    registerForPushNotificationsAsync()
+      .then((token) => {
+        if (token) {
+          setExpoPushToken(token);
+          notificationListener.current =
+            Notifications.addNotificationReceivedListener((notification) => {
+              setNotification(notification);
+            });
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        null;
+          responseListener.current =
+            Notifications.addNotificationResponseReceivedListener(
+              (response) => {
+                null;
+              }
+            );
+        }
+      })
+      .catch((e) => {
+        Alert.alert(
+          "ERROR",
+          "Terjadi masalah saat memeriksa izin pemberitahuan Anda, coba lagi nanti."
+        );
       });
 
     ShowNotification();
@@ -53,8 +62,16 @@ export default function App({ titles, bodys, datas, secondss }) {
     };
   }, []);
 
-  return null;
+  return <View></View>;
 }
+
+const handleOpenSettings = () => {
+  if (Platform.OS === "ios") {
+    Linking.openURL("app-settings:");
+  } else {
+    Linking.openSettings();
+  }
+};
 
 async function registerForPushNotificationsAsync() {
   let token;
@@ -67,20 +84,27 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== "granted") {
+      Alert.alert(
+        "PEMBERITAHUAN",
+        "Harap aktifkan izin pemberitahuan aplikasi di pengaturan Anda.",
+        [
+          {
+            text: "AKTIFKAN",
+            onPress: () => handleOpenSettings(),
+          },
+        ]
+      );
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-  } else {
-    null;
   }
 
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("default", {
       name: "default",
-      importance: Notifications.AndroidImportance.MAX,
+      importance: Notifications.AndroidImportance.HIGH,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: "#2e1fff7b",
-      sound: "../assets/notification.wav",
     });
   }
 

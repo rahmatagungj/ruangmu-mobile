@@ -2,7 +2,14 @@ import React from "react";
 import ContainerBar from "../Components/ContainerBar";
 import { FontAwesome } from "@expo/vector-icons";
 import styled from "styled-components/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Platform,
+  Linking,
+} from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const Setting = () => {
@@ -17,6 +24,23 @@ const Setting = () => {
     );
   };
 
+  const handleOpenSettings = () => {
+    if (Platform.OS === "ios") {
+      Linking.openURL("app-settings:");
+    } else {
+      Linking.openSettings();
+    }
+  };
+
+  const ShowMessage = (title, body, buttonText, onPress) => {
+    Alert.alert(title, body, [
+      {
+        text: buttonText,
+        onPress: () => onPress,
+      },
+    ]);
+  };
+
   return (
     <>
       <ContainerBar
@@ -29,14 +53,35 @@ const Setting = () => {
           action={
             <MaterialCommunityIcons name="trash-can" size={20} color="black" />
           }
-          onPress={null}
+          onPress={() =>
+            ShowMessage(
+              "PEMBERITAHUAN",
+              "Sampah data aplikasi berhasil dibersihkan.",
+              "TUTUP",
+              null
+            )
+          }
         />
         <RenderItem
           title="Periksa Pembaruan"
           action={
             <MaterialIcons name="system-update" size={20} color="black" />
           }
-          onPress={null}
+          onPress={() =>
+            ShowMessage(
+              "PEMBERITAHUAN",
+              "Anda sudah menggunakan versi aplikasi terbaru.",
+              "TUTUP",
+              null
+            )
+          }
+        />
+        <RenderItem
+          title="Izin Pemberitahuan"
+          action={
+            <MaterialIcons name="notifications" size={20} color="black" />
+          }
+          onPress={() => handleOpenSettings()}
         />
       </Container>
     </>

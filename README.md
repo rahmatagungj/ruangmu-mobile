@@ -15,7 +15,10 @@ npx http-server -p 8000 dist
 Run this on LINUX System
 
 ```bash
-sudo su \
+sudo su
+```
+
+```bash
 EXPO_ANDROID_KEYSTORE_PASSWORD="1010123" \
 EXPO_ANDROID_KEY_PASSWORD="1010123" \
 turtle build:android \
