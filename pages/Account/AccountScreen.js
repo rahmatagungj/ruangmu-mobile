@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
 import DataUserContext from "../../Context/DataUserContext";
+import About from "./Common/About";
+import Profile from "./Common/Profile";
+import Setting from "./Common/Setting";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -12,26 +15,35 @@ const AccountScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F6F9FD" }}>
-      <ContainerTop>
-        <UserPicture source={require("../../assets/user.png")} />
-        <UserName>Rahmat Agung Julians</UserName>
-        <UserNim>191223045</UserNim>
-        <UserBio>
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book.
-        </UserBio>
-      </ContainerTop>
-      <ContentCenter>
-        <BadgeVerified source={require("../../assets/verified.png")} />
-        <MetaContent>
-          <VerifiedStatus>Akun Terverifikasi!</VerifiedStatus>
-          <VerifiedEmail>rahmatagungj@gmail.com</VerifiedEmail>
-        </MetaContent>
-      </ContentCenter>
-      <ButtonLogout title="Keluar" onPress={HandleLogout} />
-    </View>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+    >
+      <View style={{ flex: 1, backgroundColor: "#F6F9FD" }}>
+        <ContainerTop>
+          <UserPicture source={require("../../assets/user.png")} />
+          <UserName>Rahmat Agung Julians</UserName>
+          <UserNim>191223045</UserNim>
+          <UserBio>
+            Lorem Ipsum has been the industry's standard dummy text ever since
+            the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </UserBio>
+        </ContainerTop>
+        <ContentCenter>
+          <BadgeVerified source={require("../../assets/verified.png")} />
+          <MetaContent>
+            <VerifiedStatus>Akun Terverifikasi!</VerifiedStatus>
+            <VerifiedEmail>rahmatagungj@gmail.com</VerifiedEmail>
+          </MetaContent>
+        </ContentCenter>
+        <Profile />
+        <Setting />
+        <About />
+        <ButtonLogout title="Keluar" onPress={HandleLogout} />
+      </View>
+    </ScrollView>
   );
 };
 

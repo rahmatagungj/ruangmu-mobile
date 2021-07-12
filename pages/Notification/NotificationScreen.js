@@ -1,5 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, Image, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  ScrollView,
+} from "react-native";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import DataUserContext from "../../Context/DataUserContext";
@@ -65,10 +71,16 @@ const NotificationScreen = () => {
   };
 
   return (
-    <Views>
-      <TitlePage>Notifikasi</TitlePage>
-      <RenderNotificationItem DataNotification={allNotification} />
-    </Views>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+    >
+      <Views>
+        <TitlePage>Notifikasi</TitlePage>
+        <RenderNotificationItem DataNotification={allNotification} />
+      </Views>
+    </ScrollView>
   );
 };
 

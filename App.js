@@ -37,7 +37,7 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
-  const [devMode, setDevMode] = useState(false);
+  const [devMode, setDevMode] = useState(true);
 
   const renderItem = ({ item }) => {
     return (
