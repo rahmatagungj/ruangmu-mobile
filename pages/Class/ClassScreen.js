@@ -19,13 +19,12 @@ const ClassScreen = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="ios-chevron-back" size={24} color="white" />
           </TouchableOpacity>
-          <Entypo name="chat" size={24} color="white" />
+          <TouchableOpacity onPress={() => null}>
+            <Entypo name="chat" size={24} color="white" />
+          </TouchableOpacity>
         </Header>
         <ContainerTop color={color}>
-          <TeacherPicture
-            source={{ uri: picture }}
-            defaultSource={require("../../assets/defaultUser.png")}
-          />
+          <TeacherPicture source={{ uri: picture }} />
           <Container>
             <TitleClass>{title}</TitleClass>
             <Divier />
@@ -84,8 +83,6 @@ const TeacherName = styled.Text`
   font-size: 12px;
   line-height: 20px;
   color: #ffffff;
-  width: 100%;
-  align-items: center;
 `;
 
 const TeacherPicture = styled.Image`

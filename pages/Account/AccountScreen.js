@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
@@ -6,6 +6,7 @@ import DataUserContext from "../../Context/DataUserContext";
 import About from "./Common/About";
 import Profile from "./Common/Profile";
 import Setting from "./Common/Setting";
+import Notification from "../../Components/Notification";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -20,6 +21,15 @@ const AccountScreen = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       bounces={false}
     >
+      <Notification
+        titles="📝 Tugas Baru"
+        bodys={
+          dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
+          " baru saja mengirim tugas, periksa tugas segera."
+        }
+        secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
+        datas="2"
+      />
       <View style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}>
         <ContainerTop>
           <UserPicture source={require("../../assets/user.png")} />

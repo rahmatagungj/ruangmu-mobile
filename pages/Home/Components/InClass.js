@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableHighlight, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import ClassScreen from "../../Class/ClassScreen";
 
 const InClass = ({ title, color, name, picture, navigation }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   return (
     <TouchableHighlight
       underlayColor="transparent"
@@ -20,10 +22,7 @@ const InClass = ({ title, color, name, picture, navigation }) => {
         <TitleClass>{title}</TitleClass>
         <DetailClass>
           <Teacher>
-            <Avatars
-              source={{ uri: picture }}
-              defaultSource={require("../../../assets/defaultUser.png")}
-            />
+            <Avatars source={{ uri: picture }} />
             <Name>{name}</Name>
           </Teacher>
           <TeacherBackground />

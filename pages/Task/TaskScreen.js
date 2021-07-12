@@ -15,10 +15,7 @@ const TaskScreen = ({ navigation }) => {
         {DataTask.map((task, idx) => {
           return (
             <ContainerTask key={idx}>
-              <TeacherPicture
-                source={{ uri: task.Picture }}
-                defaultSource={require("../../assets/defaultUser.png")}
-              />
+              <TeacherPicture source={{ uri: task.Picture }} />
               <LimitedView>
                 <Teacher>{task.Name}</Teacher>
                 <ContainerDetailTask>

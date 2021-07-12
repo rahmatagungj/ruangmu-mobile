@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,7 +8,7 @@ const Absent = () => {
     <Views>
       <ContainerAbsent>
         <Sesions>ABSEN PERTEMUAN 6</Sesions>
-        <TouchableOpacity>
+        <TouchableHighlight underlayColor="transparent" onPress={() => null}>
           <ContrainerAction>
             <Ionicons
               name="hand-right-sharp"
@@ -19,7 +19,7 @@ const Absent = () => {
             <AbsentBackground />
             <AbsentStatus>Sudah Hadir</AbsentStatus>
           </ContrainerAction>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </ContainerAbsent>
     </Views>
   );

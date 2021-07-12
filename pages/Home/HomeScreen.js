@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components/native";
 import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight,
+  TouchableOpacity,
   SafeAreaView,
   Image,
 } from "react-native";
@@ -13,6 +13,7 @@ import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DataUserContext from "../../Context/DataUserContext";
+import Notification from "../../Components/Notification";
 
 const HomeScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -38,6 +39,16 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Notification
+        titles={
+          "🔔 Kamu memiliki " +
+          Object.keys(dataUser["Notification"]).length +
+          " pemberitahuan"
+        }
+        bodys={`Hai. Sudah lama tidak melihatmu, periksa pembaruan terkini untukmu.`}
+        secondss={Math.floor(Math.random() * (10 - 3 + 1) + 3)}
+        datas="2"
+      />
       <Screen>
         <ScrollView
           showsHorizontalScrollIndicator={false}
@@ -49,12 +60,9 @@ const HomeScreen = ({ navigation }) => {
           <FlexView>
             <TitleClass>Daftar Kelas</TitleClass>
             <Sort>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() => alert(`Tombol pengurutan berhasil ditekan!`)}
-              >
+              <TouchableOpacity underlayColor="transparent">
                 <MaterialCommunityIcons name="sort" size={24} color="black" />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </Sort>
           </FlexView>
           <RenderClassItem DataClass={dataUser["Class"]} />

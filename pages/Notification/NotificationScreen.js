@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import styled from "styled-components/native";
@@ -27,6 +28,10 @@ const NotificationScreen = () => {
     setNotificationToShow(newNotification);
   };
 
+  const handleDeleteAllNotification = () => {
+    setNotificationToShow({});
+  };
+
   useEffect(() => {
     setNotificationCount(Object.keys(notificationToShow).length);
     return () => {
@@ -40,25 +45,28 @@ const NotificationScreen = () => {
         {notificationToShow.length > 0 ? (
           notificationToShow.map((notif, idx) => {
             return (
-              <ContainerNotification key={idx}>
-                <Images
-                  source={{ uri: notif.Image }}
-                  defaultSource={require("../../assets/defaultUser.png")}
-                />
-                <Content>
-                  <TitleNotification>{notif.Name}</TitleNotification>
-                  <ContentNotification>{notif.Content}</ContentNotification>
-                  <TimeNotification>{notif.Time}</TimeNotification>
-                </Content>
-                <CloseNotification>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => handleCloseNotification(notif.key)}
-                  >
-                    <AntDesign name="close" size={20} color="black" />
-                  </TouchableHighlight>
-                </CloseNotification>
-              </ContainerNotification>
+              <TouchableHighlight
+                underlayColor="#e7e7e7"
+                onPress={() => null}
+                key={idx}
+              >
+                <ContainerNotification>
+                  <Images source={{ uri: notif.Image }} />
+                  <Content>
+                    <TitleNotification>{notif.Name}</TitleNotification>
+                    <ContentNotification>{notif.Content}</ContentNotification>
+                    <TimeNotification>{notif.Time}</TimeNotification>
+                  </Content>
+                  <CloseNotification>
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => handleCloseNotification(notif.key)}
+                    >
+                      <AntDesign name="close" size={20} color="black" />
+                    </TouchableHighlight>
+                  </CloseNotification>
+                </ContainerNotification>
+              </TouchableHighlight>
             );
           })
         ) : (
@@ -77,12 +85,26 @@ const NotificationScreen = () => {
       bounces={false}
     >
       <Views>
-        <TitlePage>Notifikasi</TitlePage>
+        <FlexRow>
+          <TitlePage>Notifikasi</TitlePage>
+          {notificationToShow.length > 0 ? (
+            <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
+              <Text>Hapus Semua</Text>
+            </TouchableOpacity>
+          ) : null}
+        </FlexRow>
         <RenderNotificationItem DataNotification={allNotification} />
       </Views>
     </ScrollView>
   );
 };
+
+const FlexRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 12px;
+`;
 
 const Views = styled.View`
   flex: 1;
@@ -98,7 +120,6 @@ const TitlePage = styled.Text`
 const ContainerNotification = styled.View`
   padding: 10px;
   flex-direction: row;
-  background: #e7e7e7;
   align-items: center;
 `;
 
@@ -141,10 +162,10 @@ const CloseNotification = styled.View`
 `;
 
 const CenteredOnScreen = styled.View`
-  flex: 1;
   align-items: center;
   justify-content: center;
-  align-content: center;
+  margin-top: 15px;
+  flex: 1;
 `;
 
 export default NotificationScreen;
