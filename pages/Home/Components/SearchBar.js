@@ -1,16 +1,41 @@
-import React from "react";
-import { View, Text, Image, TextInput, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import { Alert } from "react-native";
 
 const SearchBar = () => {
+  const [toSearch, setToSearch] = useState();
+
+  const handleSearch = () => {
+    if (toSearch) {
+      Alert.alert("Pencarian", "Hasil pencarian tidak ditemukan.", [
+        {
+          text: "Tutup",
+        },
+      ]);
+    }
+  };
+
   return (
     <View style={styles.sectionStyle}>
       <TextInput
         style={{ flex: 1 }}
         placeholder="Mencari sesuatu?"
         underlineColorAndroid="transparent"
+        returnKeyType="go"
+        onChangeText={(text) => setToSearch(text)}
+        onSubmitEditing={handleSearch}
       />
-      <Entypo name="magnifying-glass" size={24} color="black" />
+      <TouchableOpacity onPress={handleSearch}>
+        <Entypo name="magnifying-glass" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };

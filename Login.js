@@ -7,11 +7,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import styled from "styled-components/native";
 import StatusBar from "./Components/StatusBar";
 import { Button } from "./Components/Button";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import LoadingCircle from "./Components/LoadingCircle";
 import DataUserContext from "./Context/DataUserContext";
@@ -31,6 +32,7 @@ const Login = ({ navigation }) => {
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const secondTextInput = useRef();
 
@@ -77,6 +79,22 @@ const Login = ({ navigation }) => {
     }
   };
 
+  const IconShowPasword = () => {
+    if (showPassword) {
+      return (
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons name="eye" size={24} color="black" />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons name="eye-off" size={24} color="black" />
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -99,6 +117,7 @@ const Login = ({ navigation }) => {
               onSubmitEditing={() => {
                 secondTextInput.current.focus();
               }}
+              maxLength={20}
             />
           </ContainerForm>
         </Animatable.View>
@@ -107,13 +126,15 @@ const Login = ({ navigation }) => {
             <MaterialIcons name="vpn-key" size={20} color="black" />
             <FormPassword
               placeholder="Kata Sandi"
-              secureTextEntry={true}
+              secureTextEntry={showPassword ? false : true}
               returnKeyType="go"
               underlineColorAndroid="transparent"
               onChangeText={(text) => setPassword(text)}
               ref={secondTextInput}
               onSubmitEditing={handleLogin}
+              maxLength={50}
             />
+            <IconShowPasword />
           </ContainerForm>
         </Animatable.View>
         {loading ? (
@@ -157,13 +178,13 @@ const ContainerForm = styled.View`
 `;
 
 const FormNim = styled.TextInput`
-  min-width: 280px;
+  min-width: 270px;
   height: 51px;
-  margin-left: 5px;
+  margin-left: 10px;
 `;
 
 const FormPassword = styled.TextInput`
-  min-width: 275px;
+  min-width: 250px;
   height: 51px;
   margin-left: 5px;
 `;

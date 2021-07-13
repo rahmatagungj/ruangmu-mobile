@@ -79,14 +79,15 @@ async function registerForPushNotificationsAsync() {
     }
     if (finalStatus !== "granted") {
       Alert.alert(
-        "PEMBERITAHUAN",
+        "Pemberitahuan",
         "Harap aktifkan izin pemberitahuan aplikasi di pengaturan Anda.",
         [
           {
-            text: "AKTIFKAN",
+            text: "Aktifkan",
             onPress: () => handleOpenSettings(),
           },
-        ]
+        ],
+        { cancelable: false }
       );
       return;
     }
