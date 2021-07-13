@@ -132,7 +132,7 @@ const Login = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
               ref={secondTextInput}
               onSubmitEditing={handleLogin}
-              maxLength={50}
+              maxLength={20}
             />
             <IconShowPasword />
           </ContainerForm>

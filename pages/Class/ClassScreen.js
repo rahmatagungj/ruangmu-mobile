@@ -9,6 +9,15 @@ import Files from "./Components/Files";
 const ClassScreen = ({ route, navigation }) => {
   const { title, picture, color, name } = route.params;
 
+  const handleChatTeacher = () => {
+    navigation.navigate("ChatScreen", {
+      title: title,
+      picture: picture,
+      color: color,
+      name: name,
+    });
+  };
+
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}
@@ -19,7 +28,7 @@ const ClassScreen = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="ios-chevron-back" size={24} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => null}>
+          <TouchableOpacity onPress={() => handleChatTeacher()}>
             <Entypo name="chat" size={24} color="white" />
           </TouchableOpacity>
         </Header>

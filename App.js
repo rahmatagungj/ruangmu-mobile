@@ -5,6 +5,7 @@ import Home from "./Home";
 import Login from "./Login";
 import TaskDetails from "./Pages/Task/TaskDetails/TaskDetails";
 import ClassScreen from "./Pages/Class/ClassScreen";
+import ChatScreen from "./Pages/Chat/ChatScreen";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
 import DataUserContext from "./Context/DataUserContext";
@@ -19,7 +20,7 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
@@ -90,6 +91,11 @@ const App = () => {
                   <Stack.Screen
                     name="ClassScreen"
                     component={ClassScreen}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="ChatScreen"
+                    component={ChatScreen}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>

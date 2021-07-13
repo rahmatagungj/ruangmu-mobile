@@ -32,6 +32,7 @@ const SearchBar = () => {
         returnKeyType="go"
         onChangeText={(text) => setToSearch(text)}
         onSubmitEditing={handleSearch}
+        maxLength={30}
       />
       <TouchableOpacity onPress={handleSearch}>
         <Entypo name="magnifying-glass" size={24} color="black" />

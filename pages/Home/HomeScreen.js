@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components/native";
 import {
   Text,
@@ -19,8 +19,34 @@ import DevModeContext from "../../Context/DevModeContext";
 const HomeScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [devMode, setDevMode] = useContext(DevModeContext);
+  const [isSorted, setIsSorted] = useState(false);
+  const [DataClass, setDataClass] = useState(dataUser["Class"]);
 
-  const RenderClassItem = ({ DataClass }) => {
+  const sortBy = (data, key) => {
+    let arrayCopy = [...data];
+    arrayCopy.sort(function (a, b) {
+      if ("" + a[key] < "" + b[key]) return -1;
+      if ("" + a[key] > "" + b[key]) return 1;
+      return 0;
+    });
+    setDataClass(arrayCopy);
+  };
+
+  const handleSort = () => {
+    if (!isSorted) {
+      sortBy(DataClass, "Name");
+    } else {
+      sortBy(DataClass, "Teacher");
+    }
+    setIsSorted(!isSorted);
+  };
+
+  useEffect(() => {
+    sortBy(DataClass, "Teacher");
+    return () => null;
+  }, []);
+
+  const RenderClassItem = () => {
     return (
       <ListClass>
         {DataClass.map((classes, idx) => {
@@ -65,12 +91,15 @@ const HomeScreen = ({ navigation }) => {
           <FlexView>
             <TitleClass>Daftar Kelas</TitleClass>
             <Sort>
-              <TouchableOpacity underlayColor="transparent">
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={handleSort}
+              >
                 <MaterialCommunityIcons name="sort" size={24} color="black" />
               </TouchableOpacity>
             </Sort>
           </FlexView>
-          <RenderClassItem DataClass={dataUser["Class"]} />
+          <RenderClassItem />
         </ScrollView>
       </Screen>
     </SafeAreaView>

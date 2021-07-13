@@ -30,6 +30,7 @@ const NotificationScreen = () => {
   const handleDeleteAllNotification = () => {
     setNotificationToShow({});
   };
+
   useEffect(() => {
     setNotificationCount(Object.keys(notificationToShow).length);
     return () => {
