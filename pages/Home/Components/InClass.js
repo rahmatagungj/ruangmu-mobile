@@ -15,38 +15,7 @@ const InClass = ({
 }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
-  if (canAnimate) {
-    return (
-      <Animatable.View
-        animation="slideInUp"
-        iterationCount={1}
-        delay={currentDelay}
-      >
-        <TouchableHighlight
-          underlayColor="transparent"
-          onPress={() =>
-            navigation.push("ClassScreen", {
-              title: title,
-              picture: picture,
-              color: color,
-              name: name,
-            })
-          }
-        >
-          <ClassContainer color={color}>
-            <TitleClass>{title}</TitleClass>
-            <DetailClass>
-              <Teacher>
-                <Avatars source={{ uri: picture }} />
-                <Name>{name}</Name>
-              </Teacher>
-              <TeacherBackground />
-            </DetailClass>
-          </ClassContainer>
-        </TouchableHighlight>
-      </Animatable.View>
-    );
-  } else {
+  const RenderClassItem = () => {
     return (
       <TouchableHighlight
         underlayColor="transparent"
@@ -71,6 +40,20 @@ const InClass = ({
         </ClassContainer>
       </TouchableHighlight>
     );
+  };
+
+  if (canAnimate) {
+    return (
+      <Animatable.View
+        animation="slideInUp"
+        iterationCount={1}
+        delay={currentDelay}
+      >
+        <RenderClassItem />
+      </Animatable.View>
+    );
+  } else {
+    return <RenderClassItem />;
   }
 };
 
