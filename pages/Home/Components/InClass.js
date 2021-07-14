@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, TouchableHighlight, Text, Image } from "react-native";
 import styled from "styled-components/native";
-import ClassScreen from "../../Class/ClassScreen";
 import * as Animatable from "react-native-animatable";
 
 const InClass = ({ title, color, name, picture, navigation, currentDelay }) => {

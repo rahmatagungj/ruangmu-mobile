@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import Files from "./Components/Files";
 
 const ClassScreen = ({ route, navigation }) => {
   const { title, picture, color, name } = route.params;
+  const [isAbsent, setIsAbsent] = useState(false);
 
   const handleChatTeacher = () => {
     navigation.navigate("ChatScreen", {
@@ -40,7 +41,7 @@ const ClassScreen = ({ route, navigation }) => {
             <TeacherName>{name}</TeacherName>
           </Container>
         </ContainerTop>
-        <Absent />
+        <Absent isAbsent={isAbsent} setIsAbsent={setIsAbsent} />
         <Notes />
         <Files />
       </Views>

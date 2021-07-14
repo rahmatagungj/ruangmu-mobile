@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";

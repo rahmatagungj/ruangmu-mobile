@@ -1,23 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 
-const Absent = () => {
+const Absent = ({ sheetRef, isAbsent, setIsAbsent }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAbsent = () => {
+    if (!isAbsent) {
+      setIsLoading(true);
+    }
+    setTimeout(() => {
+      setIsAbsent(true);
+      setIsLoading(false);
+    }, 1000);
+  };
+
   return (
     <Views>
       <ContainerAbsent>
         <Sesions>ABSEN PERTEMUAN 6</Sesions>
-        <TouchableHighlight underlayColor="transparent" onPress={() => null}>
+        <TouchableHighlight underlayColor="transparent" onPress={handleAbsent}>
           <ContrainerAction>
-            <Ionicons
-              name="hand-right-sharp"
-              size={50}
-              color="white"
-              style={{ marginTop: -20 }}
-            />
+            {isLoading ? (
+              <Feather
+                name="loader"
+                size={50}
+                color="white"
+                style={{ marginTop: -20 }}
+              />
+            ) : (
+              <Ionicons
+                name={isAbsent ? "checkmark" : "hand-right-sharp"}
+                size={50}
+                color="white"
+                style={{ marginTop: -20 }}
+              />
+            )}
             <AbsentBackground />
-            <AbsentStatus>Sudah Hadir</AbsentStatus>
+            <AbsentStatus>
+              {isLoading ? "Memuat" : isAbsent ? "Sudah Hadir" : "Belum Hadir"}
+            </AbsentStatus>
           </ContrainerAction>
         </TouchableHighlight>
       </ContainerAbsent>

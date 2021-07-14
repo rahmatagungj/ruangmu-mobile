@@ -32,11 +32,17 @@ const HomeScreen = ({ navigation }) => {
     setDataClass(arrayCopy);
   };
 
+  const sortBack = () => {
+    setDataClass(dataUser["Class"]);
+    setIsSorted(false);
+    setDataUser(dataUser);
+  };
+
   const handleSort = () => {
     if (!isSorted) {
       sortBy(DataClass, "Name");
     } else {
-      sortBy(DataClass, "Teacher");
+      sortBack();
     }
     setIsSorted(!isSorted);
   };
