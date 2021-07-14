@@ -20,6 +20,7 @@ import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
 import DevModeContext from "./Context/DevModeContext";
 import * as Animatable from "react-native-animatable";
+import SingleBasicModal from "./Components/Modal/SingleBasicModal";
 
 const Login = ({ navigation }) => {
   const [devMode, setDevMode] = useContext(DevModeContext);
@@ -33,14 +34,8 @@ const Login = ({ navigation }) => {
     useContext(NotificationContext);
   const [taskCount, setTaskCount] = useContext(TaskContext);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [showAlertLogin, setShowAlertLogin] = useState(false);
   const secondTextInput = useRef();
-
-  const showAlertLogin = () => {
-    Alert.alert("Pemberitahuan", "Nim dan Password wajib di isi!", [
-      { text: "OK", onPress: () => null },
-    ]);
-  };
 
   const getDataUser = () => {
     axios
@@ -75,7 +70,7 @@ const Login = ({ navigation }) => {
       setLoading(true);
       getDataUser();
     } else {
-      showAlertLogin();
+      setShowAlertLogin(true);
     }
   };
 
@@ -145,6 +140,14 @@ const Login = ({ navigation }) => {
           </Animatable.View>
         )}
       </ContainerCenter>
+      <SingleBasicModal
+        isVisible={showAlertLogin}
+        title="Masuk"
+        buttonText="Tutup"
+        onPressButton={() => setShowAlertLogin(false)}
+      >
+        <Text>NIM dan Kata Sandi wajib di isi.</Text>
+      </SingleBasicModal>
     </KeyboardAvoidingView>
   );
 };

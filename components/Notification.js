@@ -1,7 +1,8 @@
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import React, { useState, useEffect, useRef } from "react";
-import { Platform, Alert, Linking, View } from "react-native";
+import { Platform, Alert, Linking, View, Text } from "react-native";
+import BasicModal from "./Modal/BasicModal";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -16,6 +17,7 @@ export default function App({ titles, bodys, datas, secondss }) {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const [visible, setVisible] = useState(false);
 
   const ShowNotification = async () => {
     await Notifications.scheduleNotificationAsync({
@@ -31,7 +33,9 @@ export default function App({ titles, bodys, datas, secondss }) {
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then((token) => {
-        if (token) {
+        if (!token) {
+          setVisible(true);
+        } else {
           setExpoPushToken(token);
         }
       })
@@ -56,7 +60,22 @@ export default function App({ titles, bodys, datas, secondss }) {
     };
   }, []);
 
-  return <View></View>;
+  return (
+    <View>
+      <BasicModal
+        isVisible={visible}
+        title="Pemberitahuan"
+        buttonLeftText="Tutup"
+        onPressButtonLeft={() => setVisible(false)}
+        buttonRightText="Lanjutkan"
+        onPressButtonRight={() => Linking.openSettings()}
+      >
+        <Text>
+          Aplikasi membutuhkan izin untuk mengirim layanan pemberitahuan.
+        </Text>
+      </BasicModal>
+    </View>
+  );
 }
 
 const handleOpenSettings = () => {
@@ -78,17 +97,6 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== "granted") {
-      Alert.alert(
-        "Pemberitahuan",
-        "Harap aktifkan izin pemberitahuan aplikasi di pengaturan Anda.",
-        [
-          {
-            text: "Aktifkan",
-            onPress: () => handleOpenSettings(),
-          },
-        ],
-        { cancelable: false }
-      );
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;

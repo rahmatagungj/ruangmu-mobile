@@ -12,6 +12,7 @@ import DataUserContext from "./Context/DataUserContext";
 import DevModeContext from "./Context/DevModeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppIntro from "./AppIntro";
+import { ModalPortal } from "react-native-modals";
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,7 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
@@ -97,6 +98,7 @@ const App = () => {
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>
+                <ModalPortal />
               </NavigationContainer>
             </TaskContext.Provider>
           </NotificationContext.Provider>
