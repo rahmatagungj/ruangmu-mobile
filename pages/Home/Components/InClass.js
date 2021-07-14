@@ -3,14 +3,51 @@ import { View, TouchableHighlight, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import * as Animatable from "react-native-animatable";
 
-const InClass = ({ title, color, name, picture, navigation, currentDelay }) => {
+const InClass = ({
+  title,
+  color,
+  name,
+  picture,
+  navigation,
+  currentDelay,
+  canAnimate,
+  setCanAnimate,
+}) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
-  return (
-    <Animatable.View
-      animation="slideInUp"
-      iterationCount={1}
-      delay={currentDelay}
-    >
+
+  if (canAnimate) {
+    return (
+      <Animatable.View
+        animation="slideInUp"
+        iterationCount={1}
+        delay={currentDelay}
+      >
+        <TouchableHighlight
+          underlayColor="transparent"
+          onPress={() =>
+            navigation.push("ClassScreen", {
+              title: title,
+              picture: picture,
+              color: color,
+              name: name,
+            })
+          }
+        >
+          <ClassContainer color={color}>
+            <TitleClass>{title}</TitleClass>
+            <DetailClass>
+              <Teacher>
+                <Avatars source={{ uri: picture }} />
+                <Name>{name}</Name>
+              </Teacher>
+              <TeacherBackground />
+            </DetailClass>
+          </ClassContainer>
+        </TouchableHighlight>
+      </Animatable.View>
+    );
+  } else {
+    return (
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() =>
@@ -33,8 +70,8 @@ const InClass = ({ title, color, name, picture, navigation, currentDelay }) => {
           </DetailClass>
         </ClassContainer>
       </TouchableHighlight>
-    </Animatable.View>
-  );
+    );
+  }
 };
 
 const ClassContainer = styled.View`

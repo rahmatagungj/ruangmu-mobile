@@ -21,6 +21,7 @@ const HomeScreen = ({ navigation }) => {
   const [devMode, setDevMode] = useContext(DevModeContext);
   const [isSorted, setIsSorted] = useState(false);
   const [DataClass, setDataClass] = useState(dataUser["Class"]);
+  const [canAnimate, setCanAnimate] = useState(true);
 
   const sortBy = (data, key) => {
     let arrayCopy = [...data];
@@ -41,6 +42,7 @@ const HomeScreen = ({ navigation }) => {
   const handleSort = () => {
     if (!isSorted) {
       sortBy(DataClass, "Name");
+      setCanAnimate(false);
     } else {
       sortBack();
     }
@@ -65,6 +67,8 @@ const HomeScreen = ({ navigation }) => {
               picture={classes.Picture}
               navigation={navigation}
               currentDelay={500 + idx * 150}
+              canAnimate={canAnimate}
+              setCanAnimate={setCanAnimate}
             />
           );
         })}

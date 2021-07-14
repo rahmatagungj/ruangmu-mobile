@@ -4,11 +4,15 @@ import { Button } from "../../../../Components/Button";
 import styled from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
+import SingleBasicModal from "../../../../Components/Modal/SingleBasicModal";
+import LoadingCircle from "../../../../Components/LoadingCircle";
 
 const Files = () => {
   const [singleFile, setSingleFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [canUpload, setCanUpoad] = useState(false);
+  const [showSuccessUpload, setShowSuccessUpload] = useState(false);
+  const [isLoadingUpload, setIsLoadingUpload] = useState(false);
 
   const SelectFile = async () => {
     let result = await DocumentPicker.getDocumentAsync({
@@ -30,6 +34,30 @@ const Files = () => {
     }
   };
 
+  const handleUploadFile = () => {
+    setIsLoadingUpload(true);
+    setTimeout(() => {
+      setShowSuccessUpload(true);
+      setIsLoadingUpload(false);
+    }, 4000);
+  };
+
+  const Modal = () => {
+    return (
+      <SingleBasicModal
+        isVisible={showSuccessUpload}
+        title="Berkas"
+        buttonText="Tutup"
+        onPressButton={() => {
+          setShowSuccessUpload(false);
+          setCanUpoad(false);
+        }}
+      >
+        <Text>Berkas berhasil diunggah.</Text>
+      </SingleBasicModal>
+    );
+  };
+
   return (
     <ContainerSubmitTask>
       <HeaderSubmit>
@@ -37,8 +65,22 @@ const Files = () => {
         <TitleSubmit>Tugas Anda</TitleSubmit>
       </HeaderSubmit>
       {canUpload ? <TextFileName>{fileName}</TextFileName> : null}
-      <ButtonSelectFile title="Pilih Berkas" onPress={() => SelectFile()} />
-      {canUpload ? <ButtonUploadFile title="Unggah Berkas" /> : null}
+      {isLoadingUpload ? <LoadingCircle /> : null}
+      {!isLoadingUpload && (
+        <ButtonSelectFile
+          title={canUpload ? "Ganti Berkas" : "Pilih Berkas"}
+          onPress={() => SelectFile()}
+        />
+      )}
+      {canUpload && !isLoadingUpload ? (
+        <>
+          <ButtonUploadFile
+            title="Unggah Berkas"
+            onPress={() => !isLoadingUpload && handleUploadFile()}
+          />
+          <Modal />
+        </>
+      ) : null}
     </ContainerSubmitTask>
   );
 };

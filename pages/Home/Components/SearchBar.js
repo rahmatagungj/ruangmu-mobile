@@ -9,18 +9,29 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Alert } from "react-native";
+import SingleBasicModal from "../../../Components/Modal/SingleBasicModal";
 
 const SearchBar = () => {
   const [toSearch, setToSearch] = useState();
+  const [showSeachModal, setShowSearchModal] = useState(false);
 
   const handleSearch = () => {
     if (toSearch) {
-      Alert.alert("Pencarian", "Hasil pencarian tidak ditemukan.", [
-        {
-          text: "Tutup",
-        },
-      ]);
+      setShowSearchModal(true);
     }
+  };
+
+  const Modal = () => {
+    return (
+      <SingleBasicModal
+        isVisible={showSeachModal}
+        title="Pencarian"
+        buttonText="Tutup"
+        onPressButton={() => setShowSearchModal(false)}
+      >
+        <Text>Hasil pencarian tidak ada.</Text>
+      </SingleBasicModal>
+    );
   };
 
   return (
@@ -37,6 +48,7 @@ const SearchBar = () => {
       <TouchableOpacity onPress={handleSearch}>
         <Entypo name="magnifying-glass" size={24} color="black" />
       </TouchableOpacity>
+      <Modal />
     </View>
   );
 };
