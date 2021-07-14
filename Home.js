@@ -6,7 +6,6 @@ import HomeScreen from "./Pages/Home/HomeScreen";
 import NotificationScreen from "./Pages/Notification/NotificationScreen";
 import TaskScreen from "./Pages/Task/TaskScreen";
 import AccountScreen from "./Pages/Account/AccountScreen";
-import StatusBar from "./Components/StatusBar";
 import DataUserContext from "./Context/DataUserContext";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
@@ -27,7 +26,6 @@ function Home({ route, navigation }) {
 
   return (
     <>
-      <StatusBar backgroundColor="#000000" barStyle="light-content" />
       <Tab.Navigator
         lazy={true}
         screenOptions={({ route }) => ({

@@ -3,11 +3,15 @@ import { View, Text, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { GiftedChat, Send } from "react-native-gifted-chat";
+import StatusBar from "../../Components/StatusBar";
+import { useIsFocused } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ChatScreen = ({ route, navigation }) => {
   const { title, picture, color, name } = route.params;
 
   const [messages, setMessages] = useState([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     setMessages([
@@ -107,27 +111,32 @@ const ChatScreen = ({ route, navigation }) => {
   };
 
   return (
-    <Views>
-      <Header>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="ios-chevron-back" size={24} color="black" />
-        </TouchableOpacity>
-        <TeacherName>{name}</TeacherName>
-      </Header>
-      <GiftedChat
-        alwaysShowSend={true}
-        renderSend={RenderSendButton}
-        isLoadingEarlier={true}
-        messages={messages}
-        placeholder="Ketik pesan disini ..."
-        scrollToBottom
-        scrollToBottomComponent={scrollToBottomComponent}
-        onSend={(messages) => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-      />
-    </Views>
+    <SafeAreaView style={{ flex: 1 }}>
+      {isFocused && (
+        <StatusBar backgroundColor="white" barStyle="dark-content" />
+      )}
+      <Views>
+        <Header>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="ios-chevron-back" size={24} color="black" />
+          </TouchableOpacity>
+          <TeacherName>{name}</TeacherName>
+        </Header>
+        <GiftedChat
+          alwaysShowSend={true}
+          renderSend={RenderSendButton}
+          isLoadingEarlier={true}
+          messages={messages}
+          placeholder="Ketik pesan disini ..."
+          scrollToBottom
+          scrollToBottomComponent={scrollToBottomComponent}
+          onSend={(messages) => onSend(messages)}
+          user={{
+            _id: 1,
+          }}
+        />
+      </Views>
+    </SafeAreaView>
   );
 };
 

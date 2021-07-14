@@ -9,67 +9,79 @@ import Setting from "./Common/Setting";
 import Notification from "../../Components/Notification";
 import DevModeContext from "../../Context/DevModeContext";
 import BasicModal from "../../Components/Modal/BasicModal";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StatusBar from "../../Components/StatusBar";
+import { useIsFocused } from "@react-navigation/native";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [devMode, setDevMode] = useContext(DevModeContext);
   const [confirmLogout, setConfirmLogout] = useState(false);
 
+  const isFocused = useIsFocused();
+
   const Logout = () => {
     navigation.replace("Login");
   };
 
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-    >
-      {!devMode ? (
-        <Notification
-          titles="📝 Tugas Baru"
-          bodys={
-            dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
-            " baru saja mengirim tugas, periksa tugas segera."
-          }
-          secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
-          datas="2"
-        />
-      ) : null}
-      <View style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}>
-        <ContainerTop>
-          <UserPicture source={require("../../assets/user.png")} />
-          <UserName>Rahmat Agung Julians</UserName>
-          <UserNim>191223045</UserNim>
-          <UserBio>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
-          </UserBio>
-        </ContainerTop>
-        <ContentCenter>
-          <BadgeVerified source={require("../../assets/verified.png")} />
-          <MetaContent>
-            <VerifiedStatus>Akun Terverifikasi!</VerifiedStatus>
-            <VerifiedEmail>rahmatagungj@gmail.com</VerifiedEmail>
-          </MetaContent>
-        </ContentCenter>
-        <Profile />
-        <Setting />
-        <About />
-        <ButtonLogout title="Keluar" onPress={() => setConfirmLogout(true)} />
-      </View>
-      <BasicModal
-        title="Keluar"
-        isVisible={confirmLogout}
-        buttonRightText="Ya"
-        onPressButtonRight={() => Logout()}
-        buttonLeftText="Tidak"
-        onPressButtonLeft={() => setConfirmLogout(false)}
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      {isFocused && (
+        <StatusBar backgroundColor="#33c0a0" barStyle="light-content" />
+      )}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        <Text>Apakah anda yakin akan keluar akun?</Text>
-      </BasicModal>
-    </ScrollView>
+        {!devMode ? (
+          <Notification
+            titles="📝 Tugas Baru"
+            bodys={
+              dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
+              " baru saja mengirim tugas, periksa tugas segera."
+            }
+            secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
+            datas="2"
+          />
+        ) : null}
+        <View
+          style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}
+        >
+          <ContainerTop>
+            <UserPicture source={require("../../assets/user.png")} />
+            <UserName>Rahmat Agung Julians</UserName>
+            <UserNim>191223045</UserNim>
+            <UserBio>
+              Lorem Ipsum has been the industry's standard dummy text ever since
+              the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.
+            </UserBio>
+          </ContainerTop>
+          <ContentCenter>
+            <BadgeVerified source={require("../../assets/verified.png")} />
+            <MetaContent>
+              <VerifiedStatus>Akun Terverifikasi!</VerifiedStatus>
+              <VerifiedEmail>rahmatagungj@gmail.com</VerifiedEmail>
+            </MetaContent>
+          </ContentCenter>
+          <Profile />
+          <Setting />
+          <About />
+          <ButtonLogout title="Keluar" onPress={() => setConfirmLogout(true)} />
+        </View>
+        <BasicModal
+          title="Keluar"
+          isVisible={confirmLogout}
+          buttonRightText="Ya"
+          onPressButtonRight={() => Logout()}
+          buttonLeftText="Tidak"
+          onPressButtonLeft={() => setConfirmLogout(false)}
+        >
+          <Text>Apakah anda yakin akan keluar akun?</Text>
+        </BasicModal>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -21,6 +21,8 @@ import TaskContext from "./Context/TaskContext";
 import DevModeContext from "./Context/DevModeContext";
 import * as Animatable from "react-native-animatable";
 import SingleBasicModal from "./Components/Modal/SingleBasicModal";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useIsFocused } from "@react-navigation/native";
 
 const Login = ({ navigation }) => {
   const [devMode, setDevMode] = useContext(DevModeContext);
@@ -36,6 +38,7 @@ const Login = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showAlertLogin, setShowAlertLogin] = useState(false);
   const secondTextInput = useRef();
+  const isFocused = useIsFocused();
 
   const getDataUser = () => {
     axios
@@ -106,54 +109,62 @@ const Login = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: "white" }}
     >
-      <ContainerCenter>
-        <StatusBar backgroundColor="#F2F2F2" barStyle="dark-content" />
-        <Animatable.View animation="fadeInUpBig" iterationCount={1} delay={500}>
-          <Logo source={require("./assets/logobar.png")} />
-        </Animatable.View>
-        <Divier />
-        <Animatable.View animation="flipInX" iterationCount={1} delay={1000}>
-          <ContainerForm>
-            <FontAwesome name="user" size={20} color="black" />
-            <FormNim
-              placeholder="Nomor Induk Mahasiswa"
-              underlineColorAndroid="transparent"
-              onChangeText={(text) => setNim(text)}
-              returnKeyType="next"
-              onSubmitEditing={() => {
-                secondTextInput.current.focus();
-              }}
-              maxLength={20}
-            />
-          </ContainerForm>
-        </Animatable.View>
-        <Animatable.View animation="flipInX" iterationCount={1} delay={1300}>
-          <ContainerForm>
-            <MaterialIcons name="vpn-key" size={20} color="black" />
-            <FormPassword
-              placeholder="Kata Sandi"
-              secureTextEntry={showPassword ? false : true}
-              returnKeyType="go"
-              underlineColorAndroid="transparent"
-              onChangeText={(text) => setPassword(text)}
-              ref={secondTextInput}
-              onSubmitEditing={handleLogin}
-              maxLength={20}
-            />
-            <IconShowPasword />
-          </ContainerForm>
-        </Animatable.View>
-        {loading ? (
-          <LoadingCircle />
-        ) : (
-          <Animatable.View animation="zoomIn" iterationCount={1} delay={1500}>
-            <Buttons title="Masuk" onPress={handleLogin} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <ContainerCenter>
+          {isFocused && (
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+          )}
+          <Animatable.View
+            animation="fadeInUpBig"
+            iterationCount={1}
+            delay={500}
+          >
+            <Logo source={require("./assets/logobar.png")} />
           </Animatable.View>
-        )}
-      </ContainerCenter>
-      <Modal />
+          <Divier />
+          <Animatable.View animation="flipInX" iterationCount={1} delay={1000}>
+            <ContainerForm>
+              <FontAwesome name="user" size={20} color="black" />
+              <FormNim
+                placeholder="Nomor Induk Mahasiswa"
+                underlineColorAndroid="transparent"
+                onChangeText={(text) => setNim(text)}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  secondTextInput.current.focus();
+                }}
+                maxLength={20}
+              />
+            </ContainerForm>
+          </Animatable.View>
+          <Animatable.View animation="flipInX" iterationCount={1} delay={1300}>
+            <ContainerForm>
+              <MaterialIcons name="vpn-key" size={20} color="black" />
+              <FormPassword
+                placeholder="Kata Sandi"
+                secureTextEntry={showPassword ? false : true}
+                returnKeyType="go"
+                underlineColorAndroid="transparent"
+                onChangeText={(text) => setPassword(text)}
+                ref={secondTextInput}
+                onSubmitEditing={handleLogin}
+                maxLength={20}
+              />
+              <IconShowPasword />
+            </ContainerForm>
+          </Animatable.View>
+          {loading ? (
+            <LoadingCircle />
+          ) : (
+            <Animatable.View animation="zoomIn" iterationCount={1} delay={1500}>
+              <Buttons title="Masuk" onPress={handleLogin} />
+            </Animatable.View>
+          )}
+        </ContainerCenter>
+        <Modal />
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };
@@ -193,7 +204,7 @@ const FormNim = styled.TextInput`
 `;
 
 const FormPassword = styled.TextInput`
-  min-width: 250px;
+  min-width: 245px;
   height: 51px;
   margin-left: 5px;
 `;

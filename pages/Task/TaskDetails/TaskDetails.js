@@ -4,39 +4,50 @@ import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import Commentar from "./Components/Commentar";
 import Files from "./Components/Files";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useIsFocused } from "@react-navigation/native";
+import StatusBar from "../../../Components/StatusBar";
 
 const TaskDetails = ({ route, navigation }) => {
   const { name, teacher, details, picture, date, deadline } = route.params;
 
+  const isFocused = useIsFocused();
+
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <Views>
-        <Header>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="ios-chevron-back" size={24} color="black" />
-          </TouchableOpacity>
-          <FlexRow>
-            <TeacherPicture source={{ uri: picture }} />
-            <TeacherName>{teacher}</TeacherName>
-          </FlexRow>
-        </Header>
-        <ViewsTask>
-          <TaskTitle>{name}</TaskTitle>
-          <DateTask>Ditambahkan pada {date}</DateTask>
-          <RightView>
-            <DeadlineTask>Tenggal: {deadline}</DeadlineTask>
-          </RightView>
-          <ContainerDetails>
-            <DetailsTask>{details}</DetailsTask>
-          </ContainerDetails>
-          <Files />
-          <Commentar />
-        </ViewsTask>
-      </Views>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      {isFocused && (
+        <StatusBar backgroundColor="white" barStyle="dark-content" />
+      )}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: "white" }}
+      >
+        <Views>
+          <Header>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name="ios-chevron-back" size={24} color="black" />
+            </TouchableOpacity>
+            <FlexRow>
+              <TeacherPicture source={{ uri: picture }} />
+              <TeacherName>{teacher}</TeacherName>
+            </FlexRow>
+          </Header>
+          <ViewsTask>
+            <TaskTitle>{name}</TaskTitle>
+            <DateTask>Ditambahkan pada {date}</DateTask>
+            <RightView>
+              <DeadlineTask>Tenggal: {deadline}</DeadlineTask>
+            </RightView>
+            <ContainerDetails>
+              <DetailsTask>{details}</DetailsTask>
+            </ContainerDetails>
+            <Files />
+            <Commentar />
+          </ViewsTask>
+        </Views>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

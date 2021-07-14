@@ -23,20 +23,18 @@ const BasicModal = (props) => {
           })
         }
         modalTitle={<ModalTitle title={props.title} />}
-        footer={
-          <ModalFooter>
-            <ModalButton
-              text={props.buttonLeftText}
-              onPress={props.onPressButtonLeft}
-            />
-            <ModalButton
-              text={props.buttonRightText}
-              onPress={props.onPressButtonRight}
-            />
-          </ModalFooter>
-        }
       >
         <ModalContents>{props.children}</ModalContents>
+        <ModalFooter>
+          <ModalButton
+            text={props.buttonLeftText}
+            onPress={props.onPressButtonLeft}
+          />
+          <ModalButton
+            text={props.buttonRightText}
+            onPress={props.onPressButtonRight}
+          />
+        </ModalFooter>
       </Modal>
     </View>
   );

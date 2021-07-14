@@ -1,13 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components/native";
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-} from "react-native";
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import SearchBar from "./Components/SearchBar";
@@ -15,6 +8,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DataUserContext from "../../Context/DataUserContext";
 import Notification from "../../Components/Notification";
 import DevModeContext from "../../Context/DevModeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StatusBar from "../../Components/StatusBar";
+import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -22,6 +18,7 @@ const HomeScreen = ({ navigation }) => {
   const [isSorted, setIsSorted] = useState(false);
   const [DataClass, setDataClass] = useState(dataUser["Class"]);
   const [canAnimate, setCanAnimate] = useState(true);
+  const isFocused = useIsFocused();
 
   const sortBy = (data, key) => {
     let arrayCopy = [...data];
@@ -77,7 +74,10 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      {isFocused && (
+        <StatusBar backgroundColor="#ee3131" barStyle="light-content" />
+      )}
       {!devMode ? (
         <Notification
           titles={
@@ -142,10 +142,12 @@ const TitleClass = styled.Text`
 const FlexView = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const Sort = styled.View`
   margin-top: 5px;
+  padding-right: 15px;
 `;
 
 export default HomeScreen;

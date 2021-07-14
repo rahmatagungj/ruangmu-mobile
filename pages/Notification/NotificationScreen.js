@@ -11,6 +11,9 @@ import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import DataUserContext from "../../Context/DataUserContext";
 import NotificationContext from "../../Context/NotificationContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StatusBar from "../../Components/StatusBar";
+import { useIsFocused } from "@react-navigation/native";
 
 const NotificationScreen = () => {
   const [allNotification] = useContext(DataUserContext);
@@ -19,6 +22,8 @@ const NotificationScreen = () => {
   );
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
+
+  const isFocused = useIsFocused();
 
   const handleCloseNotification = (key) => {
     const newNotification = notificationToShow.filter(
@@ -80,23 +85,29 @@ const NotificationScreen = () => {
   };
 
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-    >
-      <Views>
-        <FlexRow>
-          <TitlePage>Notifikasi</TitlePage>
-          {notificationToShow.length > 0 ? (
-            <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
-              <Text>Hapus Semua</Text>
-            </TouchableOpacity>
-          ) : null}
-        </FlexRow>
-        <RenderNotificationItem DataNotification={notificationToShow} />
-      </Views>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      {isFocused && (
+        <StatusBar backgroundColor="white" barStyle="dark-content" />
+      )}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        style={{ backgroundColor: "white" }}
+      >
+        <Views>
+          <FlexRow>
+            <TitlePage>Notifikasi</TitlePage>
+            {notificationToShow.length > 0 ? (
+              <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
+                <Text>Hapus Semua</Text>
+              </TouchableOpacity>
+            ) : null}
+          </FlexRow>
+          <RenderNotificationItem DataNotification={notificationToShow} />
+        </Views>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

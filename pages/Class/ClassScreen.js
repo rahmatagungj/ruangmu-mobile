@@ -5,10 +5,15 @@ import { Entypo, Ionicons } from "@expo/vector-icons";
 import Absent from "./Components/Absent";
 import Notes from "./Components/Notes";
 import Files from "./Components/Files";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StatusBar from "../../Components/StatusBar";
+import { useIsFocused } from "@react-navigation/native";
 
 const ClassScreen = ({ route, navigation }) => {
   const { title, picture, color, name } = route.params;
   const [isAbsent, setIsAbsent] = useState(false);
+
+  const isFocused = useIsFocused();
 
   const handleChatTeacher = () => {
     navigation.navigate("ChatScreen", {
@@ -20,32 +25,37 @@ const ClassScreen = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <Views>
-        <Header color={color}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="ios-chevron-back" size={24} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleChatTeacher()}>
-            <Entypo name="chat" size={24} color="white" />
-          </TouchableOpacity>
-        </Header>
-        <ContainerTop color={color}>
-          <TeacherPicture source={{ uri: picture }} />
-          <Container>
-            <TitleClass>{title}</TitleClass>
-            <Divier />
-            <TeacherName>{name}</TeacherName>
-          </Container>
-        </ContainerTop>
-        <Absent isAbsent={isAbsent} setIsAbsent={setIsAbsent} />
-        <Notes />
-        <Files />
-      </Views>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      {isFocused && (
+        <StatusBar backgroundColor={color} barStyle="light-content" />
+      )}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <Views>
+          <Header color={color}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name="ios-chevron-back" size={24} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleChatTeacher()}>
+              <Entypo name="chat" size={24} color="white" />
+            </TouchableOpacity>
+          </Header>
+          <ContainerTop color={color}>
+            <TeacherPicture source={{ uri: picture }} />
+            <Container>
+              <TitleClass>{title}</TitleClass>
+              <Divier />
+              <TeacherName>{name}</TeacherName>
+            </Container>
+          </ContainerTop>
+          <Absent isAbsent={isAbsent} setIsAbsent={setIsAbsent} />
+          <Notes />
+          <Files />
+        </Views>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import Home from "./Home";
 import Login from "./Login";
 import TaskDetails from "./Pages/Task/TaskDetails/TaskDetails";
@@ -13,6 +16,9 @@ import DevModeContext from "./Context/DevModeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppIntro from "./AppIntro";
 import { ModalPortal } from "react-native-modals";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import StatusBar from "./Components/StatusBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Stack = createStackNavigator();
 
@@ -70,36 +76,51 @@ const App = () => {
             value={[notificationCount, setNotificationCount]}
           >
             <TaskContext.Provider value={[taskCount, setTaskCount]}>
-              <NavigationContainer>
-                <Stack.Navigator initialRouteName="Login">
-                  <Stack.Screen
-                    name="Login"
-                    component={Login}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="TaskDetails"
-                    component={TaskDetails}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="ClassScreen"
-                    component={ClassScreen}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="ChatScreen"
-                    component={ChatScreen}
-                    options={{ headerShown: false }}
-                  />
-                </Stack.Navigator>
-                <ModalPortal />
-              </NavigationContainer>
+              <SafeAreaProvider>
+                <NavigationContainer>
+                  <Stack.Navigator initialRouteName="Login">
+                    <Stack.Screen
+                      name="Login"
+                      component={Login}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Home"
+                      component={Home}
+                      options={{
+                        headerShown: false,
+                        cardOverlayEnabled: true,
+                        ...TransitionPresets.ScaleFromCenterAndroid,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="TaskDetails"
+                      component={TaskDetails}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="ClassScreen"
+                      component={ClassScreen}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="ChatScreen"
+                      component={ChatScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                  </Stack.Navigator>
+                  <ModalPortal />
+                </NavigationContainer>
+              </SafeAreaProvider>
             </TaskContext.Provider>
           </NotificationContext.Provider>
         </DataUserContext.Provider>
@@ -108,7 +129,16 @@ const App = () => {
   } else {
     return (
       <>
-        {isFirst ? <AppIntro isLoaded={isLoaded} onDone={onDone} /> : onDone()}
+        {isFirst ? (
+          <SafeAreaProvider>
+            <SafeAreaView style={{ flex: 1 }}>
+              <StatusBar hidden={true} />
+              <AppIntro isLoaded={isLoaded} onDone={onDone} />
+            </SafeAreaView>
+          </SafeAreaProvider>
+        ) : (
+          onDone()
+        )}
       </>
     );
   }

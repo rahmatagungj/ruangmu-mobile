@@ -5,6 +5,8 @@ import { Button } from "../../Components/Button";
 import TaskContext from "../../Context/TaskContext";
 import DataUserContext from "../../Context/DataUserContext";
 import * as Animatable from "react-native-animatable";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StatusBar from "../../Components/StatusBar";
 
 const TaskScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -58,15 +60,19 @@ const TaskScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <Views>
-        <TitlePage>Daftar Tugas</TitlePage>
-        <RenderTaskItem DataTask={dataUser["Task"]} />
-      </Views>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: "white" }}
+      >
+        <Views>
+          <TitlePage>Daftar Tugas</TitlePage>
+          <RenderTaskItem DataTask={dataUser["Task"]} />
+        </Views>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

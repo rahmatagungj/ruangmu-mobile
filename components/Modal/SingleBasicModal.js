@@ -23,16 +23,11 @@ const SingleBasicModal = (props) => {
           })
         }
         modalTitle={<ModalTitle title={props.title} />}
-        footer={
-          <ModalFooter>
-            <ModalButton
-              text={props.buttonText}
-              onPress={props.onPressButton}
-            />
-          </ModalFooter>
-        }
       >
         <ModalContents>{props.children}</ModalContents>
+        <ModalFooter>
+          <ModalButton text={props.buttonText} onPress={props.onPressButton} />
+        </ModalFooter>
       </Modal>
     </View>
   );
