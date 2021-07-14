@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ContainerBar from "../Components/ContainerBar";
 import { FontAwesome } from "@expo/vector-icons";
 import styled from "styled-components/native";
@@ -12,8 +12,13 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SingleBasicModal from "../../../Components/Modal/SingleBasicModal";
 
 const Setting = () => {
+  const [showVersion, setShowVersion] = useState(false);
+  const [showSuccessClearTrash, setShowSuccessClearTrash] = useState(false);
+  const [showFailedClearTrash, setShowFailedClearTrash] = useState(false);
+
   const RenderItem = ({ title, action, onPress }) => {
     return (
       <TouchableOpacity underlayColor="transparent" onPress={onPress}>
@@ -42,29 +47,45 @@ const Setting = () => {
     ]);
   };
 
-  const clearStorage = async () => {
+  const HandleDeleteTrash = async () => {
     try {
       await AsyncStorage.clear();
-      ShowMessage(
-        "PEMBERITAHUAN",
-        "Sampah data aplikasi berhasil dibersihkan.",
-        "TUTUP",
-        null
-      );
+      setShowSuccessClearTrash(true);
     } catch (e) {
-      ShowMessage(
-        "PEMBERITAHUAN",
-        "Sampah data aplikasi gagal dibersihkan.",
-        "TUTUP",
-        null
-      );
+      setShowFailedClearTrash(true);
     }
   };
 
-  const HandleDeleteTrash = () => {
-    clearStorage();
+  const Modal = () => {
+    return (
+      <>
+        <SingleBasicModal
+          isVisible={showVersion}
+          title="Versi"
+          buttonText="Tutup"
+          onPressButton={() => setShowVersion(false)}
+        >
+          <Text>Anda sudah menggunakan versi aplikasi terbaru.</Text>
+        </SingleBasicModal>
+        <SingleBasicModal
+          isVisible={showSuccessClearTrash}
+          title="Penyimpanan"
+          buttonText="Tutup"
+          onPressButton={() => setShowSuccessClearTrash(false)}
+        >
+          <Text>Sampah data aplikasi berhasil dibersihkan.</Text>
+        </SingleBasicModal>
+        <SingleBasicModal
+          isVisible={showFailedClearTrash}
+          title="Penyimpanan"
+          buttonText="Tutup"
+          onPressButton={() => setShowFailedClearTrash(false)}
+        >
+          <Text>Sampah data aplikasi gagal dibersihkan.</Text>
+        </SingleBasicModal>
+      </>
+    );
   };
-
   return (
     <>
       <ContainerBar
@@ -84,14 +105,7 @@ const Setting = () => {
           action={
             <MaterialIcons name="system-update" size={20} color="black" />
           }
-          onPress={() =>
-            ShowMessage(
-              "PEMBERITAHUAN",
-              "Anda sudah menggunakan versi aplikasi terbaru.",
-              "TUTUP",
-              null
-            )
-          }
+          onPress={() => setShowVersion(true)}
         />
         <RenderItem
           title="Izin Pemberitahuan"
@@ -101,6 +115,7 @@ const Setting = () => {
           onPress={() => handleOpenSettings()}
         />
       </Container>
+      <Modal />
     </>
   );
 };

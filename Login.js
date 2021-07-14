@@ -90,6 +90,19 @@ const Login = ({ navigation }) => {
     }
   };
 
+  const Modal = () => {
+    return (
+      <SingleBasicModal
+        isVisible={showAlertLogin}
+        title="Masuk"
+        buttonText="Tutup"
+        onPressButton={() => setShowAlertLogin(false)}
+      >
+        <Text>NIM dan Kata Sandi wajib di isi.</Text>
+      </SingleBasicModal>
+    );
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -140,14 +153,7 @@ const Login = ({ navigation }) => {
           </Animatable.View>
         )}
       </ContainerCenter>
-      <SingleBasicModal
-        isVisible={showAlertLogin}
-        title="Masuk"
-        buttonText="Tutup"
-        onPressButton={() => setShowAlertLogin(false)}
-      >
-        <Text>NIM dan Kata Sandi wajib di isi.</Text>
-      </SingleBasicModal>
+      <Modal />
     </KeyboardAvoidingView>
   );
 };

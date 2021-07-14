@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
@@ -8,12 +8,14 @@ import Profile from "./Common/Profile";
 import Setting from "./Common/Setting";
 import Notification from "../../Components/Notification";
 import DevModeContext from "../../Context/DevModeContext";
+import BasicModal from "../../Components/Modal/BasicModal";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [devMode, setDevMode] = useContext(DevModeContext);
+  const [confirmLogout, setConfirmLogout] = useState(false);
 
-  const HandleLogout = () => {
+  const Logout = () => {
     navigation.replace("Login");
   };
 
@@ -55,8 +57,18 @@ const AccountScreen = ({ navigation }) => {
         <Profile />
         <Setting />
         <About />
-        <ButtonLogout title="Keluar" onPress={HandleLogout} />
+        <ButtonLogout title="Keluar" onPress={() => setConfirmLogout(true)} />
       </View>
+      <BasicModal
+        title="Keluar"
+        isVisible={confirmLogout}
+        buttonRightText="Ya"
+        onPressButtonRight={() => Logout()}
+        buttonLeftText="Tidak"
+        onPressButtonLeft={() => setConfirmLogout(false)}
+      >
+        <Text>Apakah anda yakin akan keluar akun?</Text>
+      </BasicModal>
     </ScrollView>
   );
 };
