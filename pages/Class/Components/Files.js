@@ -28,7 +28,7 @@ const TitleFile = styled.Text`
 const ContainerNote = styled.View`
   min-height: 100px;
   height: auto;
-  background: #c4c4c4;
+  background: #f1f4f9;
   border-radius: 15px;
   padding: 10px;
   justify-content: center;

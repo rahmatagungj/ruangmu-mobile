@@ -2,14 +2,13 @@ import React from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../../../Components/Button";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 const Commentar = () => {
   return (
     <ContainerCommentar>
       <HeaderCommentar>
-        <FontAwesome5 name="user-alt" size={20} color="#073C64" />
-        <TitleCommentar>Komentar Pribadi</TitleCommentar>
+        <TitleCommentar>Komentar</TitleCommentar>
       </HeaderCommentar>
       <Comment>
         <UserPicture source={require("../../../../assets/user.png")} />
@@ -25,10 +24,7 @@ const Commentar = () => {
 const ContainerCommentar = styled.View`
   height: auto;
   border-radius: 15px;
-  padding: 10px;
-  margin-top: 10px;
-  border: 2px solid #6c6fc6;
-  border-radius: 15px;
+  margin-top: 20px;
 `;
 
 const HeaderCommentar = styled.View`
@@ -40,7 +36,7 @@ const HeaderCommentar = styled.View`
 const TitleCommentar = styled.Text`
   font-style: normal;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 17px;
   line-height: 16px;
   margin-left: 5px;
   color: #333333;
@@ -60,7 +56,7 @@ const UserPicture = styled.Image`
 
 const TextInputCommentar = styled.TextInput`
   margin-left: 10px;
-  background: #e2e2e2;
+  background: #f1f4f9;
   border-radius: 15px;
   padding: 10px;
   height: 40px;
@@ -68,7 +64,7 @@ const TextInputCommentar = styled.TextInput`
 `;
 
 const ButtonCommentar = styled(Button)`
-  background: #073c64;
+  background: #4cbfb9;
   border-radius: 15px;
   margin-left: 10px;
   align-items: center;

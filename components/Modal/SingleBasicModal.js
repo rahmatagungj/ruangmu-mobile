@@ -22,7 +22,7 @@ const SingleBasicModal = (props) => {
             useNativeDriver: true, // optional
           })
         }
-        modalTitle={<ModalTitle title={props.title} />}
+        // modalTitle={<ModalTitle title={props.title} />}
       >
         <ModalContents>{props.children}</ModalContents>
         <ModalFooter>

@@ -37,7 +37,7 @@ const TaskDetails = ({ route, navigation }) => {
             <TaskTitle>{name}</TaskTitle>
             <DateTask>Ditambahkan pada {date}</DateTask>
             <RightView>
-              <DeadlineTask>Tenggal: {deadline}</DeadlineTask>
+              <DeadlineTask>Tenggat: {deadline}</DeadlineTask>
             </RightView>
             <ContainerDetails>
               <DetailsTask>{details}</DetailsTask>
@@ -127,7 +127,7 @@ const FlexRow = styled.View`
 
 const ContainerDetails = styled.View`
   height: auto;
-  background: #e7e7e7;
+  background: #f1f4f9;
   border-radius: 15px;
   padding: 10px;
   margin-top: 10px;

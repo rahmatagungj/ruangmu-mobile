@@ -51,7 +51,7 @@ const NotificationScreen = () => {
             return (
               <View key={notif.key + idx}>
                 <TouchableHighlight
-                  underlayColor="#e7e7e7"
+                  underlayColor="#F1F4F9"
                   onPress={() => null}
                 >
                   <ContainerNotification>
@@ -85,28 +85,27 @@ const NotificationScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       {isFocused && (
         <StatusBar backgroundColor="white" barStyle="dark-content" />
       )}
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        style={{ backgroundColor: "white" }}
-      >
-        <Views>
-          <FlexRow>
-            <TitlePage>Notifikasi</TitlePage>
-            {notificationToShow.length > 0 ? (
-              <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
-                <Text>Hapus Semua</Text>
-              </TouchableOpacity>
-            ) : null}
-          </FlexRow>
+      <Views>
+        <FlexRow>
+          <TitlePage>Notifikasi</TitlePage>
+          {notificationToShow.length > 0 ? (
+            <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
+              <TextDeleteAll>Hapus Semua</TextDeleteAll>
+            </TouchableOpacity>
+          ) : null}
+        </FlexRow>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+        >
           <RenderNotificationItem DataNotification={notificationToShow} />
-        </Views>
-      </ScrollView>
+        </ScrollView>
+      </Views>
     </SafeAreaView>
   );
 };
@@ -178,6 +177,10 @@ const CenteredOnScreen = styled.View`
   justify-content: center;
   margin-top: 15px;
   flex: 1;
+`;
+
+const TextDeleteAll = styled.Text`
+  font-size: 12px;
 `;
 
 export default NotificationScreen;

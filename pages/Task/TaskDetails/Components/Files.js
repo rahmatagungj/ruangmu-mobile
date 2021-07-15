@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 import { Button } from "../../../../Components/Button";
 import styled from "styled-components/native";
-import { FontAwesome } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import SingleBasicModal from "../../../../Components/Modal/SingleBasicModal";
 import LoadingCircle from "../../../../Components/LoadingCircle";
@@ -61,8 +60,7 @@ const Files = () => {
   return (
     <ContainerSubmitTask>
       <HeaderSubmit>
-        <FontAwesome name="calendar-check-o" size={20} color="#073C64" />
-        <TitleSubmit>Tugas Anda</TitleSubmit>
+        <TitleSubmit>Tugas</TitleSubmit>
       </HeaderSubmit>
       {canUpload ? <TextFileName>{fileName}</TextFileName> : null}
       {isLoadingUpload ? <LoadingCircle /> : null}
@@ -88,10 +86,7 @@ const Files = () => {
 const ContainerSubmitTask = styled.View`
   height: auto;
   border-radius: 15px;
-  padding: 10px;
-  margin-top: 10px;
-  border: 2px solid #6c6fc6;
-  border-radius: 15px;
+  margin-top: 20px;
 `;
 
 const HeaderSubmit = styled.View`
@@ -103,20 +98,20 @@ const HeaderSubmit = styled.View`
 const TitleSubmit = styled.Text`
   font-style: normal;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 17px;
   line-height: 16px;
   margin-left: 5px;
   color: #333333;
 `;
 
 const ButtonSelectFile = styled(Button)`
-  background: #073c64;
+  background: #4cbfb9;
   border-radius: 5px;
 `;
 
 const ButtonUploadFile = styled(Button)`
   margin-top: 10px;
-  background: #073c64;
+  background: #4cbfb9;
   border-radius: 5px;
 `;
 

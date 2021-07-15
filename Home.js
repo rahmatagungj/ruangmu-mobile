@@ -9,8 +9,10 @@ import AccountScreen from "./Pages/Account/AccountScreen";
 import DataUserContext from "./Context/DataUserContext";
 import NotificationContext from "./Context/NotificationContext";
 import TaskContext from "./Context/TaskContext";
+import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
+import styled from "styled-components/native";
 
-const Tab = createBottomTabNavigator();
+const Tab = AnimatedTabBarNavigator();
 
 function Home({ route, navigation }) {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -40,19 +42,33 @@ function Home({ route, navigation }) {
               );
             } else if (route.name === "Tugas") {
               return (
-                <Ionicons
-                  name={focused ? "ios-briefcase" : "ios-briefcase-outline"}
-                  size={size}
-                  color={color}
-                />
+                <>
+                  <Ionicons
+                    name={focused ? "ios-briefcase" : "ios-briefcase-outline"}
+                    size={size}
+                    color={color}
+                  />
+                  {taskCount > 0 && (
+                    <InnerContainer>
+                      <BadgeTxt>{taskCount}</BadgeTxt>
+                    </InnerContainer>
+                  )}
+                </>
               );
             } else if (route.name === "Notifikasi") {
               return (
-                <FontAwesome
-                  name={focused ? "bell" : "bell-o"}
-                  size={size}
-                  color={color}
-                />
+                <>
+                  <FontAwesome
+                    name={focused ? "bell" : "bell-o"}
+                    size={size}
+                    color={color}
+                  />
+                  {notificationCount > 0 && (
+                    <InnerContainer>
+                      <BadgeTxt>{notificationCount}</BadgeTxt>
+                    </InnerContainer>
+                  )}
+                </>
               );
             } else if (route.name === "Akun") {
               return (
@@ -66,36 +82,43 @@ function Home({ route, navigation }) {
           },
         })}
         tabBarOptions={{
-          activeTintColor: "white",
+          activeTintColor: "#ffffff",
           inactiveTintColor: "#dddddd",
-          keyboardHidesTabBar: true,
-          style: {
-            backgroundColor: "#073C64",
-            paddingBottom: 3,
-            padding: 10,
-            borderTopLeftRadius: 15,
-            borderTopRightRadius: 15,
-            position: "absolute",
-          },
+          activeBackgroundColor: "#eec749",
+        }}
+        appearance={{
+          tabBarBackground: "#073C64",
+          floating: true,
+          tabButtonLayout: "horizontal",
+          dotSize: "medium",
+          whenActiveShow: "label-only",
         }}
       >
         <Tab.Screen name="Beranda" component={HomeScreen} />
-        <Tab.Screen
-          name="Tugas"
-          component={TaskScreen}
-          options={taskCount > 0 ? { tabBarBadge: taskCount } : null}
-        />
-        <Tab.Screen
-          name="Notifikasi"
-          component={NotificationScreen}
-          options={
-            notificationCount > 0 ? { tabBarBadge: notificationCount } : null
-          }
-        />
+        <Tab.Screen name="Tugas" component={TaskScreen} />
+        <Tab.Screen name="Notifikasi" component={NotificationScreen} />
         <Tab.Screen name="Akun" component={AccountScreen} />
       </Tab.Navigator>
     </>
   );
 }
+
+const InnerContainer = styled.View`
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  background-color: #ee3e3e;
+  border-radius: 8px;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BadgeTxt = styled.Text`
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+`;
 
 export default Home;

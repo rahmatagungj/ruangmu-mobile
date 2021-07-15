@@ -190,7 +190,7 @@ const ContainerForm = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #e3e4e9;
+  background-color: #f1f4f9;
   height: 40px;
   border-radius: 15px;
   margin: 5px;

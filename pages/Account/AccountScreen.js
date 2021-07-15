@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
 import DataUserContext from "../../Context/DataUserContext";
@@ -27,7 +27,7 @@ const AccountScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       {isFocused && (
-        <StatusBar backgroundColor="#33c0a0" barStyle="light-content" />
+        <StatusBar backgroundColor="#1c2039" barStyle="light-content" />
       )}
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -45,9 +45,7 @@ const AccountScreen = ({ navigation }) => {
             datas="2"
           />
         ) : null}
-        <View
-          style={{ flex: 1, backgroundColor: "#F6F9FD", marginBottom: 100 }}
-        >
+        <View style={{ flex: 1, backgroundColor: "white", marginBottom: 100 }}>
           <ContainerTop>
             <UserPicture source={require("../../assets/user.png")} />
             <UserName>Rahmat Agung Julians</UserName>
@@ -86,11 +84,13 @@ const AccountScreen = ({ navigation }) => {
 };
 
 const ContainerTop = styled.View`
-  background: #33c0a0;
+  background: #1c2039;
   height: 398px;
   padding: 30px;
   padding-top: 50px;
   align-items: center;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
 `;
 
 const UserPicture = styled.Image`
@@ -125,10 +125,14 @@ const ContentCenter = styled.View`
   margin: 0 auto;
   margin-top: -40px;
   background: #ffffff;
-  border: 2px solid #6c6fc6;
+  border: 2px solid #6b5acc;
   border-radius: 15px;
   padding: 10px;
   flex-direction: row;
+  shadow-color: #000;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  elevation: 5;
 `;
 
 const MetaContent = styled.View`
@@ -161,7 +165,7 @@ const ButtonLogout = styled(Button)`
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  background: #073c64;
+  background: #4cbfb9;
   width: 80%;
 `;
 

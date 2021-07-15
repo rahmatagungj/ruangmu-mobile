@@ -1,20 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, TouchableHighlight, Text, Image } from "react-native";
 import styled from "styled-components/native";
-import * as Animatable from "react-native-animatable";
 
-const InClass = ({
-  title,
-  color,
-  name,
-  picture,
-  navigation,
-  currentDelay,
-  canAnimate,
-  setCanAnimate,
-}) => {
-  const [isImageLoading, setIsImageLoading] = useState(true);
-
+const InClass = ({ title, color, name, picture, navigation }) => {
   const RenderClassItem = () => {
     return (
       <TouchableHighlight
@@ -42,26 +30,14 @@ const InClass = ({
     );
   };
 
-  if (canAnimate) {
-    return (
-      <Animatable.View
-        animation="slideInUp"
-        iterationCount={1}
-        delay={currentDelay}
-      >
-        <RenderClassItem />
-      </Animatable.View>
-    );
-  } else {
-    return <RenderClassItem />;
-  }
+  return <RenderClassItem />;
 };
 
 const ClassContainer = styled.View`
   background: ${(props) => props.color || "#707070"};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
-  min-height: 100px;
+  min-height: 110px;
   min-width: 150px;
   padding: 10px;
   margin-top: 20px;

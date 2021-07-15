@@ -25,7 +25,7 @@ const ClassScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       {isFocused && (
         <StatusBar backgroundColor={color} barStyle="light-content" />
       )}
@@ -34,16 +34,15 @@ const ClassScreen = ({ route, navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <Views>
-          <Header color={color}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name="ios-chevron-back" size={24} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleChatTeacher()}>
-              <Entypo name="chat" size={24} color="white" />
-            </TouchableOpacity>
-          </Header>
           <ContainerTop color={color}>
-            <TeacherPicture source={{ uri: picture }} />
+            <View>
+              <TeacherPicture source={{ uri: picture }} />
+              <CircleIcon>
+                <TouchableOpacity onPress={() => handleChatTeacher()}>
+                  <Entypo name="chat" size={18} color="white" />
+                </TouchableOpacity>
+              </CircleIcon>
+            </View>
             <Container>
               <TitleClass>{title}</TitleClass>
               <Divier />
@@ -62,13 +61,6 @@ const ClassScreen = ({ route, navigation }) => {
 const Views = styled.View`
   flex: 1;
   margin-bottom: 100px;
-`;
-
-const Header = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px;
-  background: ${(props) => props.color};
 `;
 
 const ContainerTop = styled.View`
@@ -90,11 +82,12 @@ const Container = styled.View`
 const TitleClass = styled.Text`
   font-style: normal;
   font-weight: bold;
-  font-size: 23px;
+  font-size: 20px;
   color: #ffffff;
   width: 100%;
   line-height: 30px;
   margin-top: 10px;
+  text-align: center;
 `;
 
 const TeacherName = styled.Text`
@@ -117,6 +110,15 @@ const Divier = styled.View`
   background: #c4c4c4;
   margin-top: 10px;
   margin-bottom: 10px;
+`;
+
+const CircleIcon = styled.View`
+  border-radius: 100px;
+  padding: 5px;
+  background: #e9bf33;
+  position: absolute;
+  right: 5px;
+  bottom: 0px;
 `;
 
 export default ClassScreen;

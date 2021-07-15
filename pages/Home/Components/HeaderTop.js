@@ -1,41 +1,52 @@
 import React from "react";
-import { Text, View, Image, Dimensions } from "react-native";
+import { Text, View, Image } from "react-native";
 import styled from "styled-components/native";
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+
+import Svg, { Path } from "react-native-svg";
 
 const HeaderTop = () => {
+  const date = new Date();
+  let hours = date.getHours();
+  let statusTime =
+    hours < 12 ? "Pagi" : hours <= 18 && hours >= 12 ? "Sore" : "Malam";
+
+  let name = "Rahmat Agung Julians".split(" ")[0];
+  let status = "Mahasiswa";
+
   return (
-    <HeaderTops>
-      <GroupOne>
-        <SeparateOne>
-          <TextGreetings>Halo,</TextGreetings>
-          <TextName>Rahmat AJ.</TextName>
-        </SeparateOne>
-        <UserPicture source={require("../../../assets/user.png")} />
-      </GroupOne>
-      <Divier />
-      <GroupTwo>
-        <View>
-          <OwnTitle>UJIAN TENGAH SEMESTER</OwnTitle>
-          <OwnTitle>2021</OwnTitle>
-        </View>
-        <StatusUser
-          source={require("../../../assets/status.png")}
-          windowWidth={windowWidth}
+    <View>
+      <Svg
+        height="60%"
+        width="100%"
+        viewBox="0 0 1440 320"
+        style={{ position: "absolute", top: 70, left: 0 }}
+        preserveAspectRatio="xMinYMin slice"
+      >
+        <Path
+          fill="#b12c30"
+          d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,218.7C672,235,768,245,864,229.3C960,213,1056,171,1152,176C1248,181,1344,235,1392,261.3L1440,288L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
         />
-      </GroupTwo>
-    </HeaderTops>
+      </Svg>
+      <HeaderTops>
+        <GroupOne>
+          <SeparateOne>
+            <TextGreetings>Halo, Selamat {statusTime}</TextGreetings>
+            <TextName>{name}</TextName>
+            <TextStatus>{status}</TextStatus>
+          </SeparateOne>
+          <UserPicture source={require("../../../assets/user.png")} />
+        </GroupOne>
+      </HeaderTops>
+    </View>
   );
 };
 
 const HeaderTops = styled.View`
-  background-color: #ee3131;
+  background-color: #b12c30;
   padding: 10px;
   color: white;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-  min-height: 311px;
+  min-height: 120px;
+  margin-bottom: 70px;
 `;
 
 const GroupOne = styled.View`
@@ -45,54 +56,31 @@ const GroupOne = styled.View`
 `;
 
 const SeparateOne = styled.View`
-  width: 80%;
+  max-width: 73%;
 `;
 
 const TextGreetings = styled.Text`
   color: #f0f0f0;
-  font-size: 20px;
+  font-size: 14px;
 `;
 
 const TextName = styled.Text`
-  font-size: 25px;
+  font-size: 33px;
   font-weight: bold;
   color: #ffffff;
 `;
 
 const UserPicture = styled.Image`
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 100px;
-  margin-left: auto;
-  margin-right: 10px;
+  position: absolute;
+  right: 10px;
 `;
 
-const Divier = styled.View`
-  width: 153px;
-  height: 4px;
-  background: #ffe68d;
-  margin-top: 15px;
-`;
-
-const GroupTwo = styled.View`
-  margin-top: 20px;
-  flex-direction: row;
-  align-content: center;
-  width: 100%;
-`;
-
-const OwnTitle = styled.Text`
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-  max-width: 150px;
-`;
-
-const StatusUser = styled.Image`
-  width: 150px;
-  height: 150px;
-  margin-left: auto;
-  margin-right: 10px;
+const TextStatus = styled.Text`
+  font-size: 13px;
+  color: #ffffff;
 `;
 
 export default HeaderTop;

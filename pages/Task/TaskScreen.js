@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
 import TaskContext from "../../Context/TaskContext";
 import DataUserContext from "../../Context/DataUserContext";
-import * as Animatable from "react-native-animatable";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 
@@ -17,42 +16,29 @@ const TaskScreen = ({ navigation }) => {
       <>
         {DataTask.map((task, idx) => {
           return (
-            <Animatable.View
-              animation="fadeIn"
-              iterationCount={1}
-              delay={300 + idx * 600}
-              key={idx}
-            >
-              <ContainerTask>
-                <TeacherPicture source={{ uri: task.Picture }} />
-                <LimitedView>
-                  <Teacher>{task.Name}</Teacher>
-                  <Animatable.View
-                    animation="flipInX"
-                    iterationCount={1}
-                    delay={300 + idx * 500}
-                  >
-                    <ContainerDetailTask>
-                      <TitleTask>{task.Task}</TitleTask>
-                      <DetailsTask>{task.Details}</DetailsTask>
-                      <ButtonTask
-                        title="Buka"
-                        onPress={() =>
-                          navigation.navigate("TaskDetails", {
-                            name: task.Task,
-                            teacher: task.Name,
-                            details: task.Details,
-                            picture: task.Picture,
-                            deadline: task.Deadline,
-                            date: task.Date,
-                          })
-                        }
-                      />
-                    </ContainerDetailTask>
-                  </Animatable.View>
-                </LimitedView>
-              </ContainerTask>
-            </Animatable.View>
+            <ContainerTask key={idx}>
+              <TeacherPicture source={{ uri: task.Picture }} />
+              <LimitedView>
+                <Teacher>{task.Name}</Teacher>
+                <ContainerDetailTask>
+                  <TitleTask>{task.Task}</TitleTask>
+                  <DetailsTask>{task.Details}</DetailsTask>
+                  <ButtonTask
+                    title="Buka"
+                    onPress={() =>
+                      navigation.navigate("TaskDetails", {
+                        name: task.Task,
+                        teacher: task.Name,
+                        details: task.Details,
+                        picture: task.Picture,
+                        deadline: task.Deadline,
+                        date: task.Date,
+                      })
+                    }
+                  />
+                </ContainerDetailTask>
+              </LimitedView>
+            </ContainerTask>
           );
         })}
       </>
@@ -60,18 +46,17 @@ const TaskScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: "white" }}
-      >
-        <Views>
-          <TitlePage>Daftar Tugas</TitlePage>
+      <Views>
+        <TitlePage>Daftar Tugas</TitlePage>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
           <RenderTaskItem DataTask={dataUser["Task"]} />
-        </Views>
-      </ScrollView>
+        </ScrollView>
+      </Views>
     </SafeAreaView>
   );
 };
@@ -98,6 +83,7 @@ const TitleTask = styled.Text`
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
+  margin-bottom: 5px;
 `;
 
 const TeacherPicture = styled.Image`
@@ -112,7 +98,7 @@ const LimitedView = styled.View`
 `;
 
 const ContainerDetailTask = styled.View`
-  background: #e7e7e7;
+  background: #f1f4f9;
   border-radius: 15px;
   padding: 10px;
   margin-top: 5px;
@@ -136,7 +122,7 @@ const DetailsTask = styled.Text`
 `;
 
 const ButtonTask = styled(Button)`
-  background: #afd83f;
+  background: #4cbfb9;
   border-radius: 15px;
   margin-top: 10px;
 `;

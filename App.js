@@ -19,6 +19,7 @@ import { ModalPortal } from "react-native-modals";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import StatusBar from "./Components/StatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AllClassScreen from "./Pages/Class/AllClassScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,7 +28,7 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
@@ -107,6 +108,7 @@ const App = () => {
                       component={ClassScreen}
                       options={{
                         headerShown: false,
+                        ...TransitionPresets.SlideFromRightIOS,
                       }}
                     />
                     <Stack.Screen
@@ -115,6 +117,14 @@ const App = () => {
                       options={{
                         headerShown: false,
                         ...TransitionPresets.SlideFromRightIOS,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="AllClassScreen"
+                      component={AllClassScreen}
+                      options={{
+                        headerShown: false,
+                        ...TransitionPresets.RevealFromBottomAndroid,
                       }}
                     />
                   </Stack.Navigator>
