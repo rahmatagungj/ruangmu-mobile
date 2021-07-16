@@ -6,20 +6,20 @@ import {
 } from "@react-navigation/stack";
 import Home from "./Home";
 import Login from "./Login";
-import TaskDetails from "./Pages/Task/TaskDetails/TaskDetails";
-import ClassScreen from "./Pages/Class/ClassScreen";
-import ChatScreen from "./Pages/Chat/ChatScreen";
-import NotificationContext from "./Context/NotificationContext";
-import TaskContext from "./Context/TaskContext";
-import DataUserContext from "./Context/DataUserContext";
-import DevModeContext from "./Context/DevModeContext";
+import TaskDetails from "./Screens/Task/TaskDetails/TaskDetails";
+import ClassScreen from "./Screens/Class/ClassScreen";
+import ChatScreen from "./Screens/Chat/ChatScreen";
+import NotificationContext from "./Contexts/NotificationContext";
+import TaskContext from "./Contexts/TaskContext";
+import DataUserContext from "./Contexts/DataUserContext";
+import DevModeContext from "./Contexts/DevModeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppIntro from "./AppIntro";
 import { ModalPortal } from "react-native-modals";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import StatusBar from "./Components/StatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AllClassScreen from "./Pages/Class/AllClassScreen";
+import AllClassScreen from "./Screens/Class/AllClassScreen";
 
 const Stack = createStackNavigator();
 

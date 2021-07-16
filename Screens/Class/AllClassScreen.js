@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DataUserContext from "../../Context/DataUserContext";
+import DataUserContext from "../../Contexts/DataUserContext";
 import InClass from "../Home/Components/InClass";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";

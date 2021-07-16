@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
-import DataUserContext from "../../Context/DataUserContext";
-import NotificationContext from "../../Context/NotificationContext";
+import DataUserContext from "../../Contexts/DataUserContext";
+import NotificationContext from "../../Contexts/NotificationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";

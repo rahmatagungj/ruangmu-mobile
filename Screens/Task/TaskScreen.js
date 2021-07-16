@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import styled from "styled-components/native";
 import { Button } from "../../Components/Button";
-import TaskContext from "../../Context/TaskContext";
-import DataUserContext from "../../Context/DataUserContext";
+import TaskContext from "../../Contexts/TaskContext";
+import DataUserContext from "../../Contexts/DataUserContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 
