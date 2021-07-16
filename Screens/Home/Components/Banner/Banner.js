@@ -12,7 +12,7 @@ import Slide from "./Slide";
 const { width, heigth } = Dimensions.get("window");
 let flatList;
 
-function infiniteScroll(dataList) {
+function infiniteScroll(dataList, cleaner) {
   const numberOfData = dataList.length;
   let scrollValue = 0,
     scrolled = 0;
@@ -24,13 +24,16 @@ function infiniteScroll(dataList) {
       scrollValue = 0;
       scrolled = 0;
     }
-
     try {
       this.flatList.scrollToOffset({ animated: true, offset: scrollValue });
     } catch (e) {
       clearInterval(time);
     }
   }, 4000);
+
+  if (cleaner) {
+    clearInterval(time);
+  }
 }
 
 const Banner = ({ data }) => {
@@ -40,8 +43,11 @@ const Banner = ({ data }) => {
 
   useEffect(() => {
     setDataList(data);
-    infiniteScroll(dataList);
-  });
+    infiniteScroll(dataList, false);
+    return () => {
+      infiniteScroll(dataList, true);
+    };
+  }, []);
 
   if (data && data.length) {
     return (

@@ -49,7 +49,7 @@ const NotificationScreen = () => {
         {DataNotification.length > 0 ? (
           DataNotification.map((notif, idx) => {
             return (
-              <View key={notif.key + idx}>
+              <View key={notif.key}>
                 <TouchableHighlight
                   underlayColor="#F1F4F9"
                   onPress={() => null}
