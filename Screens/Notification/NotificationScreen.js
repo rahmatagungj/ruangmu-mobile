@@ -27,7 +27,7 @@ const NotificationScreen = () => {
 
   const handleCloseNotification = (key) => {
     const newNotification = notificationToShow.filter(
-      (item) => item.key !== key
+      (item) => item.Key !== key
     );
     setNotificationToShow(newNotification);
   };
@@ -49,7 +49,7 @@ const NotificationScreen = () => {
         {DataNotification.length > 0 ? (
           DataNotification.map((notif, idx) => {
             return (
-              <View key={notif.key}>
+              <View key={notif.Key}>
                 <TouchableHighlight
                   underlayColor="#F1F4F9"
                   onPress={() => null}
@@ -65,7 +65,7 @@ const NotificationScreen = () => {
                     <CloseNotification>
                       <TouchableHighlight
                         underlayColor="transparent"
-                        onPress={() => handleCloseNotification(notif.key)}
+                        onPress={() => handleCloseNotification(notif.Key)}
                       >
                         <AntDesign name="close" size={20} color="black" />
                       </TouchableHighlight>
