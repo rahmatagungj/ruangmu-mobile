@@ -163,9 +163,9 @@ const Login = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1, backgroundColor: "white" }}
     >
-      <Notification />
       <SafeAreaView style={{ flex: 1 }}>
         <ContainerCenter>
+          <Notification />
           {isFocused && (
             <StatusBar backgroundColor="white" barStyle="dark-content" />
           )}

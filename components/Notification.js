@@ -30,9 +30,11 @@ export default function App() {
 
   useEffect(() => {
     registerForPushNotificationsAsync()
-      .then((token) => {
-        if (!token) {
+      .then((data) => {
+        if (!data) {
           setVisible(true);
+        } else {
+          addNotificationToken(data);
         }
       })
       .catch((e) => null);
@@ -73,6 +75,7 @@ export default function App() {
 
 async function registerForPushNotificationsAsync() {
   let token;
+
   if (Constants.isDevice) {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -85,7 +88,6 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    addNotificationToken(token);
   }
 
   if (Platform.OS === "android") {

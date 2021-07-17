@@ -28,7 +28,7 @@ const About = () => {
       <Container>
         <RenderItem
           title="Versi"
-          action={<Text>0.0.2 Beta</Text>}
+          action={<Text>0.0.5 Beta</Text>}
           onPress={null}
         />
         <RenderItem
