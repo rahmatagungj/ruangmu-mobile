@@ -4,20 +4,27 @@ import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import InClass from "./Components/InClass";
 import HeaderTop from "./Components/HeaderTop";
 import DataUserContext from "../../Contexts/DataUserContext";
-import Notification from "../../Components/Notification";
 import DevModeContext from "../../Contexts/DevModeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
 import Banner from "./Components/Banner/Banner";
+import DataApp from "../../Contexts/DataApp";
 
 const HomeScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
   const [devMode, setDevMode] = useContext(DevModeContext);
   const isFocused = useIsFocused();
+  const [dataApp, setDataApp] = useContext(DataApp);
 
+  const Banners = dataApp[0]["banner"];
   // to Show DataClass with limit 4 data
   const DataClassLimit = dataUser["Class"].slice(0, 4);
+
+  // map all Banners to array
+  // const BannersArray = Banners.map((banner, index) => {
+  //   return <Banner key={index} banner={banner} navigation={navigation} />;
+  // });
 
   const RenderLimitedClassItem = () => {
     return (
@@ -43,18 +50,6 @@ const HomeScreen = ({ navigation }) => {
       {isFocused && (
         <StatusBar backgroundColor="#b12c30" barStyle="light-content" />
       )}
-      {!devMode ? (
-        <Notification
-          titles={
-            "🔔 Kamu memiliki " +
-            Object.keys(dataUser["Notification"]).length +
-            " pemberitahuan"
-          }
-          bodys={`Hai. Sudah lama tidak melihatmu, periksa pembaruan terkini untukmu.`}
-          secondss={Math.floor(Math.random() * (10 - 3 + 1) + 3)}
-          datas="2"
-        />
-      ) : null}
       <Screen>
         <ScrollView
           showsHorizontalScrollIndicator={false}
@@ -62,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
           bounces={false}
         >
           <HeaderTop />
-          <Banner data={dataUser["Banner"]} />
+          <Banner data={Banners} />
           <FlexView>
             <TitleClass>Daftar Kelas</TitleClass>
             <All>

@@ -3,6 +3,7 @@ import * as Notifications from "expo-notifications";
 import React, { useState, useEffect, useRef } from "react";
 import { Platform, Alert, Linking, View, Text } from "react-native";
 import BasicModal from "./Modal/BasicModal";
+import firebase from "../Firebases/Firebase";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -12,38 +13,33 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function App({ titles, bodys, datas, secondss }) {
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
+async function addNotificationToken(token) {
+  const userDocRef = await firebase.firestore().collection("users").doc(token);
+  const doc = await userDocRef.get();
+  if (!doc.exists) {
+    userDocRef.set({
+      notificationToken: token,
+    });
+  }
+}
+
+export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
   const [visible, setVisible] = useState(false);
-
-  const ShowNotification = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: titles,
-        body: bodys,
-        data: { data: datas },
-      },
-      trigger: { seconds: secondss, repeats: false },
-    });
-  };
 
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then((token) => {
         if (!token) {
           setVisible(true);
-        } else {
-          setExpoPushToken(token);
         }
       })
       .catch((e) => null);
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
+        null;
       });
 
     responseListener.current =
@@ -51,7 +47,6 @@ export default function App({ titles, bodys, datas, secondss }) {
         null;
       });
 
-    ShowNotification();
     return () => {
       Notifications.removeNotificationSubscription(
         notificationListener.current
@@ -61,30 +56,20 @@ export default function App({ titles, bodys, datas, secondss }) {
   }, []);
 
   return (
-    <View>
-      <BasicModal
-        isVisible={visible}
-        title="Pemberitahuan"
-        buttonLeftText="Tutup"
-        onPressButtonLeft={() => setVisible(false)}
-        buttonRightText="Lanjutkan"
-        onPressButtonRight={() => Linking.openSettings()}
-      >
-        <Text>
-          Aplikasi membutuhkan izin untuk mengirim layanan pemberitahuan.
-        </Text>
-      </BasicModal>
-    </View>
+    <BasicModal
+      isVisible={visible}
+      title="Pemberitahuan"
+      buttonLeftText="Tutup"
+      onPressButtonLeft={() => setVisible(false)}
+      buttonRightText="Lanjutkan"
+      onPressButtonRight={() => Linking.openSettings()}
+    >
+      <Text>
+        Aplikasi membutuhkan izin untuk mengirim layanan pemberitahuan.
+      </Text>
+    </BasicModal>
   );
 }
-
-const handleOpenSettings = () => {
-  if (Platform.OS === "ios") {
-    Linking.openURL("app-settings:");
-  } else {
-    Linking.openSettings();
-  }
-};
 
 async function registerForPushNotificationsAsync() {
   let token;
@@ -100,6 +85,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
+    addNotificationToken(token);
   }
 
   if (Platform.OS === "android") {

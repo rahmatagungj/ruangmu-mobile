@@ -9,25 +9,24 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
-import DataUserContext from "../../Contexts/DataUserContext";
 import NotificationContext from "../../Contexts/NotificationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
+import DataNotification from "../../Contexts/DataNotification";
 
 const NotificationScreen = () => {
-  const [allNotification] = useContext(DataUserContext);
-  const [notificationToShow, setNotificationToShow] = useState(
-    allNotification["Notification"]
-  );
+  const [dataNotification, setDataNotification] = useContext(DataNotification);
   const [notificationCount, setNotificationCount] =
     useContext(NotificationContext);
+  const [notificationToShow, setNotificationToShow] =
+    useState(dataNotification);
 
   const isFocused = useIsFocused();
 
   const handleCloseNotification = (key) => {
     const newNotification = notificationToShow.filter(
-      (item) => item.Key !== key
+      (item) => item.key !== key
     );
     setNotificationToShow(newNotification);
   };
@@ -49,23 +48,23 @@ const NotificationScreen = () => {
         {DataNotification.length > 0 ? (
           DataNotification.map((notif, idx) => {
             return (
-              <View key={notif.Key}>
+              <View key={notif.key}>
                 <TouchableHighlight
                   underlayColor="#F1F4F9"
                   onPress={() => null}
                 >
                   <ContainerNotification>
-                    <Images source={{ uri: notif.Image }} />
+                    <Images source={{ uri: notif.image }} />
                     <Content>
-                      <TitleNotification>{notif.Name}</TitleNotification>
-                      <ContentNotification>{notif.Content}</ContentNotification>
-                      <TimeNotification>{notif.Time}</TimeNotification>
+                      <TitleNotification>{notif.name}</TitleNotification>
+                      <ContentNotification>{notif.content}</ContentNotification>
+                      <TimeNotification>{notif.time}</TimeNotification>
                     </Content>
 
                     <CloseNotification>
                       <TouchableHighlight
                         underlayColor="transparent"
-                        onPress={() => handleCloseNotification(notif.Key)}
+                        onPress={() => handleCloseNotification(notif.key)}
                       >
                         <AntDesign name="close" size={20} color="black" />
                       </TouchableHighlight>

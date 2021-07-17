@@ -6,7 +6,6 @@ import DataUserContext from "../../Contexts/DataUserContext";
 import About from "./Common/About";
 import Profile from "./Common/Profile";
 import Setting from "./Common/Setting";
-import Notification from "../../Components/Notification";
 import DevModeContext from "../../Contexts/DevModeContext";
 import BasicModal from "../../Components/Modal/BasicModal";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -34,17 +33,6 @@ const AccountScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        {!devMode ? (
-          <Notification
-            titles="📝 Tugas Baru"
-            bodys={
-              dataUser["Task"][Math.floor(Math.random() + 0.5)]["Name"] +
-              " baru saja mengirim tugas, periksa tugas segera."
-            }
-            secondss={Math.floor(Math.random() * (15 - 10 + 1) + 10)}
-            datas="2"
-          />
-        ) : null}
         <View style={{ flex: 1, backgroundColor: "white", marginBottom: 100 }}>
           <ContainerTop>
             <UserPicture source={require("../../assets/user.png")} />

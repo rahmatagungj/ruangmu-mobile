@@ -20,6 +20,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import StatusBar from "./Components/StatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AllClassScreen from "./Screens/Class/AllClassScreen";
+import DataNotification from "./Contexts/DataNotification";
+import DataApp from "./Contexts/DataApp";
 
 const Stack = createStackNavigator();
 
@@ -28,9 +30,11 @@ const App = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [taskCount, setTaskCount] = useState(0);
   const [dataUser, setDataUser] = useState({});
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
+  const [dataNotification, setDataNotification] = useState([]);
+  const [dataApp, setDataApp] = useState([]);
 
   const storeData = async () => {
     try {
@@ -71,70 +75,76 @@ const App = () => {
 
   if (showRealApp) {
     return (
-      <DevModeContext.Provider value={[devMode, setDevMode]}>
-        <DataUserContext.Provider value={[dataUser, setDataUser]}>
-          <NotificationContext.Provider
-            value={[notificationCount, setNotificationCount]}
-          >
-            <TaskContext.Provider value={[taskCount, setTaskCount]}>
-              <SafeAreaProvider>
-                <NavigationContainer>
-                  <Stack.Navigator initialRouteName="Login">
-                    <Stack.Screen
-                      name="Login"
-                      component={Login}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Home"
-                      component={Home}
-                      options={{
-                        headerShown: false,
-                        cardOverlayEnabled: true,
-                        ...TransitionPresets.ScaleFromCenterAndroid,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="TaskDetails"
-                      component={TaskDetails}
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="ClassScreen"
-                      component={ClassScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="ChatScreen"
-                      component={ChatScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.SlideFromRightIOS,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="AllClassScreen"
-                      component={AllClassScreen}
-                      options={{
-                        headerShown: false,
-                        ...TransitionPresets.RevealFromBottomAndroid,
-                      }}
-                    />
-                  </Stack.Navigator>
-                  <ModalPortal />
-                </NavigationContainer>
-              </SafeAreaProvider>
-            </TaskContext.Provider>
-          </NotificationContext.Provider>
-        </DataUserContext.Provider>
-      </DevModeContext.Provider>
+      <DataApp.Provider value={[dataApp, setDataApp]}>
+        <DevModeContext.Provider value={[devMode, setDevMode]}>
+          <DataUserContext.Provider value={[dataUser, setDataUser]}>
+            <DataNotification.Provider
+              value={[dataNotification, setDataNotification]}
+            >
+              <NotificationContext.Provider
+                value={[notificationCount, setNotificationCount]}
+              >
+                <TaskContext.Provider value={[taskCount, setTaskCount]}>
+                  <SafeAreaProvider>
+                    <NavigationContainer>
+                      <Stack.Navigator initialRouteName="Login">
+                        <Stack.Screen
+                          name="Login"
+                          component={Login}
+                          options={{
+                            headerShown: false,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="Home"
+                          component={Home}
+                          options={{
+                            headerShown: false,
+                            cardOverlayEnabled: true,
+                            ...TransitionPresets.ScaleFromCenterAndroid,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="TaskDetails"
+                          component={TaskDetails}
+                          options={{
+                            headerShown: false,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="ClassScreen"
+                          component={ClassScreen}
+                          options={{
+                            headerShown: false,
+                            ...TransitionPresets.SlideFromRightIOS,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="ChatScreen"
+                          component={ChatScreen}
+                          options={{
+                            headerShown: false,
+                            ...TransitionPresets.SlideFromRightIOS,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="AllClassScreen"
+                          component={AllClassScreen}
+                          options={{
+                            headerShown: false,
+                            ...TransitionPresets.RevealFromBottomAndroid,
+                          }}
+                        />
+                      </Stack.Navigator>
+                      <ModalPortal />
+                    </NavigationContainer>
+                  </SafeAreaProvider>
+                </TaskContext.Provider>
+              </NotificationContext.Provider>
+            </DataNotification.Provider>
+          </DataUserContext.Provider>
+        </DevModeContext.Provider>
+      </DataApp.Provider>
     );
   } else {
     return (

@@ -16,13 +16,43 @@ import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import LoadingCircle from "./Components/LoadingCircle";
 import DataUserContext from "./Contexts/DataUserContext";
-import NotificationContext from "./Contexts/NotificationContext";
-import TaskContext from "./Contexts/TaskContext";
 import DevModeContext from "./Contexts/DevModeContext";
 import * as Animatable from "react-native-animatable";
 import SingleBasicModal from "./Components/Modal/SingleBasicModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
+import Notification from "./Components/Notification";
+import firebase from "./Firebases/Firebase";
+import DataNotification from "./Contexts/DataNotification";
+import DataApp from "./Contexts/DataApp";
+
+async function getAllDataApp() {
+  const appData = [];
+  await firebase
+    .firestore()
+    .collection("applications")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.docs.forEach((doc) => {
+        appData.push(doc.data());
+      });
+    });
+  return appData;
+}
+
+async function getAllNotificaton() {
+  const notificationData = [];
+  await firebase
+    .firestore()
+    .collection("notifications")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.docs.forEach((doc) => {
+        notificationData.push(doc.data());
+      });
+    });
+  return notificationData;
+}
 
 const Login = ({ navigation }) => {
   const [devMode, setDevMode] = useContext(DevModeContext);
@@ -32,13 +62,13 @@ const Login = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [notificationCount, setNotificationCount] =
-    useContext(NotificationContext);
-  const [taskCount, setTaskCount] = useContext(TaskContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showAlertLogin, setShowAlertLogin] = useState(false);
   const secondTextInput = useRef();
   const isFocused = useIsFocused();
+  const [dataNotification, setDataNotification] = useContext(DataNotification);
+  const [dataApp, setDataApp] = useContext(DataApp);
+  const [showAlertMaintenance, setShowAlertMaintenance] = useState(false);
 
   const getDataUser = () => {
     axios
@@ -59,7 +89,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     if (isLoaded && !error) {
       navigation.replace("Home", {
-        notificationCount: Object.keys(dataUser["Notification"]).length,
+        notificationCount: Object.keys(dataNotification).length,
         taskCount: Object.keys(dataUser["Task"]).length,
       });
     }
@@ -71,7 +101,16 @@ const Login = ({ navigation }) => {
   const handleLogin = async () => {
     if ((nim.length > 0 && password.length > 0) || devMode) {
       setLoading(true);
-      getDataUser();
+      const allAppData = await getAllDataApp();
+      setDataApp(allAppData);
+      setShowAlertMaintenance(allAppData[2]["maintenance"]);
+      if (!allAppData[2]["maintenance"]) {
+        const allNotificationData = await getAllNotificaton();
+        setDataNotification(allNotificationData);
+        getDataUser();
+      } else {
+        setLoading(false);
+      }
     } else {
       setShowAlertLogin(true);
     }
@@ -106,11 +145,25 @@ const Login = ({ navigation }) => {
     );
   };
 
+  const ModalMaintenance = () => {
+    return (
+      <SingleBasicModal
+        isVisible={showAlertMaintenance}
+        title="Maintenance"
+        buttonText="Tutup"
+        onPressButton={() => setShowAlertMaintenance(false)}
+      >
+        <Text>Mohon maaf, aplikasi sedang dalam perbaikan.</Text>
+      </SingleBasicModal>
+    );
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1, backgroundColor: "white" }}
     >
+      <Notification />
       <SafeAreaView style={{ flex: 1 }}>
         <ContainerCenter>
           {isFocused && (
@@ -164,6 +217,7 @@ const Login = ({ navigation }) => {
           )}
         </ContainerCenter>
         <Modal />
+        <ModalMaintenance />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

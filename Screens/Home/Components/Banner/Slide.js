@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, Text, Image, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 const Slide = ({ item }) => {
   return (
     <View style={styles.cardView}>
-      <Image style={styles.image} source={{ uri: item.url }} />
+      <Image style={styles.image} source={{ uri: item }} />
       <View style={styles.textView}></View>
     </View>
   );
