@@ -69,6 +69,7 @@ const Login = ({ navigation }) => {
   const [dataNotification, setDataNotification] = useContext(DataNotification);
   const [dataApp, setDataApp] = useContext(DataApp);
   const [showAlertMaintenance, setShowAlertMaintenance] = useState(false);
+  const [isNotificationDone, setIsNotificationDone] = useState(true);
 
   const getDataUser = () => {
     axios
@@ -87,7 +88,7 @@ const Login = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (isLoaded && !error) {
+    if (isLoaded && !error && !isNotificationDone) {
       navigation.replace("Home", {
         notificationCount: Object.keys(dataNotification).length,
         taskCount: Object.keys(dataUser["Task"]).length,
@@ -96,7 +97,7 @@ const Login = ({ navigation }) => {
     return () => {
       setLoading(false);
     };
-  }, [isLoaded, error]);
+  }, [isLoaded, error, isNotificationDone]);
 
   const handleLogin = async () => {
     if ((nim.length > 0 && password.length > 0) || devMode) {
@@ -165,7 +166,10 @@ const Login = ({ navigation }) => {
     >
       <SafeAreaView style={{ flex: 1 }}>
         <ContainerCenter>
-          <Notification />
+          <Notification
+            isNotificationDone={isNotificationDone}
+            setIsNotificationDone={setIsNotificationDone}
+          />
           {isFocused && (
             <StatusBar backgroundColor="white" barStyle="dark-content" />
           )}

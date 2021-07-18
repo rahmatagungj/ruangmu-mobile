@@ -13,17 +13,30 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function addNotificationToken(token) {
+async function addNotificationToken(token, setIsNotificationDone) {
   const userDocRef = await firebase.firestore().collection("users").doc(token);
   const doc = await userDocRef.get();
-  if (!doc.exists) {
+  const nowDate = new Date().getMonth();
+  if (doc.exists) {
+    if (doc.data().lastUsed !== nowDate) {
+      userDocRef.set({
+        notificationToken: token,
+        lastUsed: new Date().getMonth(),
+      });
+    }
+  } else {
     userDocRef.set({
       notificationToken: token,
+      lastUsed: new Date().getMonth(),
     });
   }
+  setIsNotificationDone(false);
 }
 
-export default function App() {
+export default function Notification({
+  isNotificationDone,
+  setIsNotificationDone,
+}) {
   const notificationListener = useRef();
   const responseListener = useRef();
   const [visible, setVisible] = useState(false);
@@ -34,7 +47,7 @@ export default function App() {
         if (!data) {
           setVisible(true);
         } else {
-          addNotificationToken(data);
+          addNotificationToken(data, setIsNotificationDone);
         }
       })
       .catch((e) => null);
