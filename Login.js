@@ -70,6 +70,7 @@ const Login = ({ navigation }) => {
   const [dataApp, setDataApp] = useContext(DataApp);
   const [showAlertMaintenance, setShowAlertMaintenance] = useState(false);
   const [isNotificationDone, setIsNotificationDone] = useState(true);
+  const [showInvalidNim, setShowInvalidNim] = useState(false);
 
   const getDataUser = () => {
     axios
@@ -101,16 +102,22 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     if ((nim.length > 0 && password.length > 0) || devMode) {
-      setLoading(true);
-      const allAppData = await getAllDataApp();
-      setDataApp(allAppData);
-      setShowAlertMaintenance(allAppData[2]["maintenance"]);
-      if (!allAppData[2]["maintenance"]) {
-        const allNotificationData = await getAllNotificaton();
-        setDataNotification(allNotificationData);
-        getDataUser();
+      let isnum = /^\d+$/.test(nim);
+      if (isnum) {
+        setLoading(true);
+        const allAppData = await getAllDataApp();
+        setDataApp(allAppData);
+        setDevMode(allAppData[1]["devmode"]);
+        setShowAlertMaintenance(allAppData[2]["maintenance"]);
+        if (!allAppData[2]["maintenance"]) {
+          const allNotificationData = await getAllNotificaton();
+          setDataNotification(allNotificationData);
+          getDataUser();
+        } else {
+          setLoading(false);
+        }
       } else {
-        setLoading(false);
+        setShowInvalidNim(true);
       }
     } else {
       setShowAlertLogin(true);
@@ -142,6 +149,19 @@ const Login = ({ navigation }) => {
         onPressButton={() => setShowAlertLogin(false)}
       >
         <Text>NIM dan Kata Sandi wajib di isi.</Text>
+      </SingleBasicModal>
+    );
+  };
+
+  const ModalNim = () => {
+    return (
+      <SingleBasicModal
+        isVisible={showInvalidNim}
+        title="Masuk"
+        buttonText="Tutup"
+        onPressButton={() => setShowInvalidNim(false)}
+      >
+        <Text>NIM yang dimasukan salah.</Text>
       </SingleBasicModal>
     );
   };
@@ -221,6 +241,7 @@ const Login = ({ navigation }) => {
           )}
         </ContainerCenter>
         <Modal />
+        <ModalNim />
         <ModalMaintenance />
       </SafeAreaView>
     </KeyboardAvoidingView>

@@ -1,19 +1,20 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import {
   View,
   Text,
   Image,
   TouchableHighlight,
-  TouchableOpacity,
+  RefreshControl,
   ScrollView,
+  Linking,
 } from "react-native";
 import styled from "styled-components/native";
-import { AntDesign } from "@expo/vector-icons";
 import NotificationContext from "../../Contexts/NotificationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
 import DataNotification from "../../Contexts/DataNotification";
+import firebase from "../../Firebases/Firebase";
 
 const NotificationScreen = () => {
   const [dataNotification, setDataNotification] = useContext(DataNotification);
@@ -21,19 +22,9 @@ const NotificationScreen = () => {
     useContext(NotificationContext);
   const [notificationToShow, setNotificationToShow] =
     useState(dataNotification);
+  const [refreshing, setRefreshing] = useState(false);
 
   const isFocused = useIsFocused();
-
-  const handleCloseNotification = (key) => {
-    const newNotification = notificationToShow.filter(
-      (item) => item.key !== key
-    );
-    setNotificationToShow(newNotification);
-  };
-
-  const handleDeleteAllNotification = () => {
-    setNotificationToShow({});
-  };
 
   useEffect(() => {
     setNotificationCount(Object.keys(notificationToShow).length);
@@ -42,33 +33,49 @@ const NotificationScreen = () => {
     };
   }, [notificationToShow]);
 
+  const handleOpenWithLinking = (link) => {
+    if (link) {
+      Linking.openURL(link);
+    }
+  };
+
+  async function getAllNotificaton() {
+    const notificationData = [];
+    await firebase
+      .firestore()
+      .collection("notifications")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          notificationData.push(doc.data());
+        });
+      });
+    setNotificationToShow(notificationData);
+    setRefreshing(false);
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllNotificaton();
+  }, []);
+
   const RenderNotificationItem = ({ DataNotification }) => {
     return (
       <>
         {DataNotification.length > 0 ? (
-          DataNotification.map((notif, idx) => {
+          DataNotification.map((notif) => {
             return (
               <View key={notif.key}>
                 <TouchableHighlight
                   underlayColor="#F1F4F9"
-                  onPress={() => null}
+                  onPress={() => handleOpenWithLinking(notif.link)}
                 >
                   <ContainerNotification>
                     <Images source={{ uri: notif.image }} />
                     <Content>
                       <TitleNotification>{notif.name}</TitleNotification>
                       <ContentNotification>{notif.content}</ContentNotification>
-                      <TimeNotification>{notif.time}</TimeNotification>
                     </Content>
-
-                    <CloseNotification>
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        onPress={() => handleCloseNotification(notif.key)}
-                      >
-                        <AntDesign name="close" size={20} color="black" />
-                      </TouchableHighlight>
-                    </CloseNotification>
                   </ContainerNotification>
                 </TouchableHighlight>
               </View>
@@ -91,16 +98,14 @@ const NotificationScreen = () => {
       <Views>
         <FlexRow>
           <TitlePage>Notifikasi</TitlePage>
-          {notificationToShow.length > 0 ? (
-            <TouchableOpacity onPress={() => handleDeleteAllNotification()}>
-              <TextDeleteAll>Hapus Semua</TextDeleteAll>
-            </TouchableOpacity>
-          ) : null}
         </FlexRow>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           bounces={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           <RenderNotificationItem DataNotification={notificationToShow} />
         </ScrollView>
@@ -135,7 +140,7 @@ const ContainerNotification = styled.View`
 
 const Content = styled.View`
   margin-left: 10px;
-  max-width: 75%;
+  max-width: 85%;
 `;
 
 const TitleNotification = styled.Text`
@@ -164,11 +169,6 @@ const TimeNotification = styled.Text`
   font-size: 12px;
   font-weight: 700;
   margin-top: 5px;
-`;
-
-const CloseNotification = styled.View`
-  position: absolute;
-  right: 15px;
 `;
 
 const CenteredOnScreen = styled.View`
