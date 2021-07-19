@@ -16,18 +16,18 @@ Notifications.setNotificationHandler({
 async function addNotificationToken(token, setIsNotificationDone) {
   const userDocRef = await firebase.firestore().collection("users").doc(token);
   const doc = await userDocRef.get();
-  const nowDate = new Date().getMonth();
+  const nowDate = new Date().getDate();
   if (doc.exists) {
-    if (doc.data().lastUsed !== nowDate) {
+    if (nowDate - doc.data().lastUsed > 7) {
       userDocRef.set({
         notificationToken: token,
-        lastUsed: new Date().getMonth(),
+        lastUsed: new Date().getDate(),
       });
     }
   } else {
     userDocRef.set({
       notificationToken: token,
-      lastUsed: new Date().getMonth(),
+      lastUsed: new Date().getDate(),
     });
   }
   setIsNotificationDone(false);
