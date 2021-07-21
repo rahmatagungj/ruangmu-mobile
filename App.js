@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createStackNavigator,
@@ -22,6 +22,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AllClassScreen from "./Screens/Class/AllClassScreen";
 import DataNotification from "./Contexts/DataNotification";
 import DataApp from "./Contexts/DataApp";
+import * as Analytics from "expo-firebase-analytics";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +38,8 @@ const App = () => {
   const [isFirst, setIsFirst] = useState(true);
   const [dataNotification, setDataNotification] = useState([]);
   const [dataApp, setDataApp] = useState([]);
+  const navigationRef = useRef();
+  const routeNameRef = useRef();
 
   const storeData = async () => {
     try {
@@ -62,6 +67,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    Analytics.setClientId(uuidv4());
     getData();
     if (!isLoaded) {
       setTimeout(() => {
@@ -86,7 +92,24 @@ const App = () => {
               >
                 <TaskContext.Provider value={[taskCount, setTaskCount]}>
                   <SafeAreaProvider>
-                    <NavigationContainer>
+                    <NavigationContainer
+                      ref={navigationRef}
+                      onReady={() =>
+                        (routeNameRef.current =
+                          navigationRef.current.getCurrentRoute().name)
+                      }
+                      onStateChange={async () => {
+                        const previousRouteName = routeNameRef.current;
+                        const currentRouteName =
+                          navigationRef.current.getCurrentRoute().name;
+
+                        if (previousRouteName !== currentRouteName) {
+                          await Analytics.setCurrentScreen(currentRouteName);
+                        }
+
+                        routeNameRef.current = currentRouteName;
+                      }}
+                    >
                       <Stack.Navigator initialRouteName="Login">
                         <Stack.Screen
                           name="Login"

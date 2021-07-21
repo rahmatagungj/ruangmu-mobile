@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ruangmu Mobile",
     "slug": "ruangmu-mobile",
-    "version": "0.0.5",
+    "version": "1.0.0",
     "sdkVersion": "41.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -36,7 +36,13 @@
       "useNextNotificationsApi": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyArN7kA0sPerHf1uarwKwcGU35ZFfSs-5A",
+          "measurementId": "G-2VN01QNC3J"
+        }
+      }
     },
     "plugins": [
       [

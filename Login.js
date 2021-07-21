@@ -25,6 +25,7 @@ import Notification from "./Components/Notification";
 import firebase from "./Firebases/Firebase";
 import DataNotification from "./Contexts/DataNotification";
 import DataApp from "./Contexts/DataApp";
+import * as Analytics from "expo-firebase-analytics";
 
 async function getAllDataApp() {
   const appData = [];
@@ -109,6 +110,11 @@ const Login = ({ navigation }) => {
         setDataApp(allAppData);
         setDevMode(allAppData[1]["devmode"]);
         setShowAlertMaintenance(allAppData[2]["maintenance"]);
+        Analytics.logEvent("Login", {
+          contentType: "text",
+          itemId: "Masuk akun " + nim,
+          method: "direct",
+        });
         if (!allAppData[2]["maintenance"]) {
           const allNotificationData = await getAllNotificaton();
           setDataNotification(allNotificationData);

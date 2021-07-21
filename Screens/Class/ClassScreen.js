@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import Files from "./Components/Files";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
+import * as Analytics from "expo-firebase-analytics";
 
 const ClassScreen = ({ route, navigation }) => {
   const { title, picture, color, name } = route.params;
@@ -23,6 +24,16 @@ const ClassScreen = ({ route, navigation }) => {
       name: name,
     });
   };
+
+  useEffect(() => {
+    if (title && name) {
+      Analytics.logEvent("Class", {
+        contentType: "text",
+        itemId: "Membuka kelas " + title,
+        method: "direct",
+      });
+    }
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -49,7 +60,7 @@ const ClassScreen = ({ route, navigation }) => {
               <TeacherName>{name}</TeacherName>
             </Container>
           </ContainerTop>
-          <Absent isAbsent={isAbsent} setIsAbsent={setIsAbsent} />
+          <Absent isAbsent={isAbsent} setIsAbsent={setIsAbsent} title={title} />
           <Notes />
           <Files />
         </Views>

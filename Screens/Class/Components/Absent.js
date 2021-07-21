@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons, Feather } from "@expo/vector-icons";
+import * as Analytics from "expo-firebase-analytics";
 
-const Absent = ({ sheetRef, isAbsent, setIsAbsent }) => {
+const Absent = ({ isAbsent, setIsAbsent, title }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAbsent = () => {
@@ -11,6 +12,11 @@ const Absent = ({ sheetRef, isAbsent, setIsAbsent }) => {
       setIsLoading(true);
     }
     setTimeout(() => {
+      Analytics.logEvent("Absent", {
+        contentType: "text",
+        itemId: "Hadir pada " + title,
+        method: "direct",
+      });
       setIsAbsent(true);
       setIsLoading(false);
     }, 1000);

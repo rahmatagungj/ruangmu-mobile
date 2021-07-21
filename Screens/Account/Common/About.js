@@ -1,6 +1,5 @@
 import React from "react";
 import ContainerBar from "../Components/ContainerBar";
-import { FontAwesome } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -28,12 +27,12 @@ const About = () => {
       <Container>
         <RenderItem
           title="Versi"
-          action={<Text>0.0.5 Beta</Text>}
+          action={<Text>1.0.0 Beta</Text>}
           onPress={null}
         />
         <RenderItem
           title="Pembaruan Data Terakhir"
-          action={<Text>11 Juli 2021</Text>}
+          action={<Text>21 Juli 2021</Text>}
           onPress={null}
         />
       </Container>

@@ -15,6 +15,7 @@ import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
 import DataNotification from "../../Contexts/DataNotification";
 import firebase from "../../Firebases/Firebase";
+import * as Analytics from "expo-firebase-analytics";
 
 const NotificationScreen = () => {
   const [dataNotification, setDataNotification] = useContext(DataNotification);
@@ -35,6 +36,11 @@ const NotificationScreen = () => {
 
   const handleOpenWithLinking = (link) => {
     if (link) {
+      Analytics.logEvent("Notification", {
+        contentType: "text",
+        itemId: "Membuka notifikasi " + link,
+        method: "direct",
+      });
       Linking.openURL(link);
     }
   };

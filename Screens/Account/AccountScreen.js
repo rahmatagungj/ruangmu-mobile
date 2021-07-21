@@ -11,6 +11,7 @@ import BasicModal from "../../Components/Modal/BasicModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBar from "../../Components/StatusBar";
 import { useIsFocused } from "@react-navigation/native";
+import * as Analytics from "expo-firebase-analytics";
 
 const AccountScreen = ({ navigation }) => {
   const [dataUser, setDataUser] = useContext(DataUserContext);
@@ -19,7 +20,12 @@ const AccountScreen = ({ navigation }) => {
 
   const isFocused = useIsFocused();
 
-  const Logout = () => {
+  const Logout = async () => {
+    await Analytics.logEvent("Logout", {
+      contentType: "text",
+      itemId: "Keluar dari akun",
+      method: "direct",
+    });
     navigation.replace("Login");
   };
 
